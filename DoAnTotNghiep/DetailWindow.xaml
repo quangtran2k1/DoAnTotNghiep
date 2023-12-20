@@ -1,0 +1,178 @@
+﻿<Window x:Class="DoAnTotNghiep.DetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoAnTotNghiep"
+        mc:Ignorable="d"
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:uc="clr-namespace:DoAnTotNghiep.UserControlHNC"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Icon="/Images/favicon.ico"
+        BorderBrush="#bababa"
+        BorderThickness="1" 
+        x:Name="window"
+        
+        Title="Chi tiết lớp học" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <materialDesign:Card 
+                    Grid.Row="0"
+                    Margin="5 10 5 10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox
+                            Grid.Column="0"
+                            Margin="10"
+                            materialDesign:HintAssist.Hint="Quyền"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                            SelectedValue="{Binding roleId}">
+                            <ComboBoxItem Content="Quản trị">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Giáo viên">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Học sinh">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Phụ huynh">
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="10"
+                            materialDesign:HintAssist.Hint="Họ tên"
+                            IsEditable="True"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                            SelectedValue="{Binding status}">
+                            <ComboBoxItem Content="Mã số 01 - Họ tên">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Mã số 02 - Họ tên">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Mã số 03 - Họ tên">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Mã số - Họ tên">
+                            </ComboBoxItem>
+                            <ComboBoxItem Content="Mã số - Họ tên">
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card 
+                    Grid.Row="1"
+                    Margin="5 10 5 10">
+                    <WrapPanel>
+                        <Button
+                            Margin="10 10 10 10"
+                            Background="#4cc459"
+                            BorderBrush="#4cc459"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Command="{Binding AddCommand}"
+                            Width="100"
+                            ToolTip="Thêm người dùng">
+                            <WrapPanel>
+                                <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                <TextBlock Text="Thêm"></TextBlock>
+                            </WrapPanel>
+                        </Button>
+                        <Button
+                            Margin="10 10 10 10"
+                            Background="#c7232b"
+                            BorderBrush="#c7232b"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Command="{Binding DeleteCommand}"
+                            Width="100"
+                            ToolTip="Xóa người dùng">
+                            <WrapPanel>
+                                <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                <TextBlock Text="Xóa"></TextBlock>
+                            </WrapPanel>
+                        </Button>
+                    </WrapPanel>
+                </materialDesign:Card>
+                <TextBlock
+                    Grid.Row="2"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    Text="Giáo viên"/>
+                <materialDesign:Card
+                    Grid.Row="3"
+                    Margin="5 10 5 10"
+                    VerticalAlignment="Stretch">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding id}"></GridViewColumn>
+                                    <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding name}"></GridViewColumn>
+                                    <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding citizenIdentification}"></GridViewColumn>
+                                    <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding sex}"></GridViewColumn>
+                                    <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding dateOfBirth}"></GridViewColumn>
+                                    <GridViewColumn Header="Quốc tịch" DisplayMemberBinding="{Binding nation}"></GridViewColumn>
+                                    <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding phone}"></GridViewColumn>
+                                    <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding note}"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </materialDesign:Card>
+                <TextBlock
+                    Grid.Row="4"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    Text="Học sinh"/>
+                <materialDesign:Card
+                    Grid.Row="5"
+                    Margin="5 10 5 10"
+                    VerticalAlignment="Stretch">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding id}"></GridViewColumn>
+                                    <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding name}"></GridViewColumn>
+                                    <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding sex}"></GridViewColumn>
+                                    <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding dateOfBirth}"></GridViewColumn>
+                                    <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding address}"></GridViewColumn>
+                                    <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding note}"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </materialDesign:Card>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>
