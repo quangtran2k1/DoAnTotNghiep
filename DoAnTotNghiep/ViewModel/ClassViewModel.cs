@@ -1,17 +1,54 @@
 ﻿using DoAnTotNghiep.Model;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DoAnTotNghiep.ViewModel
 {
     class ClassViewModel : BaseViewModel
     {
-        //List Class
+        //List
         private ObservableCollection<@class> _List;
-        public ObservableCollection<@class> List{ get => _List; set { _List = value; OnPropertyChanged(); } }
-        //List Class
+        public ObservableCollection<@class> List { get => _List; set { _List = value; OnPropertyChanged(); } }
+        //List
+
+
+        //TeacherList
+        private ObservableCollection<teacher_class> _TeacherList;
+        public ObservableCollection<teacher_class> TeacherList { get => _TeacherList; set { _TeacherList = value; OnPropertyChanged(); } }
+        //TeacherList
+
+        //StudentList
+        private ObservableCollection<students_classes> _StudentList;
+        public ObservableCollection<students_classes> StudentList { get => _StudentList; set { _StudentList = value; OnPropertyChanged(); } }
+        //StudentList
+
+        //TeacherSearchResult
+        private ObservableCollection<teacher> _TeacherSearchResult;
+        public ObservableCollection<teacher> TeacherSearchResult { get => _TeacherSearchResult; set { _TeacherSearchResult = value; OnPropertyChanged(); } }
+        private teacher _SelectedTeacher;
+        public teacher SelectedTeacher { get => _SelectedTeacher; set { _SelectedTeacher = value; OnPropertyChanged(); } }
+        //TeacherSearchResult
+
+        //StudentSearchResult
+        private ObservableCollection<student> _StudentSearchResult;
+        public ObservableCollection<student> StudentSearchResult { get => _StudentSearchResult; set { _StudentSearchResult = value; OnPropertyChanged(); } }
+        private student _SelectedStudent;
+        public student SelectedStudent { get => _SelectedStudent; set { _SelectedStudent = value; OnPropertyChanged(); } }
+        //StudentSearchResult
+
+        //Teacher Note
+        private string _NoteTeacher;
+        public string NoteTeacher { get => _NoteTeacher; set { _NoteTeacher = value; OnPropertyChanged(); } }
+        //Teacher Note
+
+        //Student Note
+        private string _NoteStudent;
+        public string NoteStudent { get => _NoteStudent; set { _NoteStudent = value; OnPropertyChanged(); } }
+        //Student Note
 
 
         //Selected Item
@@ -31,10 +68,51 @@ namespace DoAnTotNghiep.ViewModel
                     semester selectedSemester = DataProvider.Ins.DB.semesters.FirstOrDefault(s => s.id == SelectedItem.semesterId);
                     SelectedSemester = selectedSemester;
                     SelectedStatus = StatusList.FirstOrDefault(s => s.StatusID == SelectedItem.status);
+                    LoadData();
                 }
             }
         }
         //Selected Item
+
+
+        //Selected Item Teacher Class
+        private teacher_class _SelectedItemTC;
+        public teacher_class SelectedItemTC
+        {
+            get => _SelectedItemTC;
+            set
+            {
+                _SelectedItemTC = value;
+                OnPropertyChanged();
+                if (SelectedItemTC != null)
+                {
+                    teacher selectedTeacher = DataProvider.Ins.DB.teachers.FirstOrDefault(t => t.id == SelectedItemTC.teacherId);
+                    SelectedTeacher = selectedTeacher;
+                    NoteTeacher = SelectedItemTC.note;
+                }
+            }
+        }
+        //Selected Item Teacher Class
+
+
+        //Selected Item Student Class
+        private students_classes _SelectedItemSC;
+        public students_classes SelectedItemSC
+        {
+            get => _SelectedItemSC;
+            set
+            {
+                _SelectedItemSC = value;
+                OnPropertyChanged();
+                if (SelectedItemSC != null)
+                {
+                    student selectedStudent = DataProvider.Ins.DB.students.FirstOrDefault(t => t.id == SelectedItemSC.studentId);
+                    SelectedStudent = selectedStudent;
+                    NoteStudent = SelectedItemSC.note;
+                }
+            }
+        }
+        //Selected Item Student Class
 
 
         //ClassName
@@ -141,9 +219,35 @@ namespace DoAnTotNghiep.ViewModel
         public ICommand EditCommand { get; set; }
         //Edit Command
 
+        //Delete Command
+        public ICommand DeleteCommand { get; set; }
+        //Delete Command
+
+        //Detail Command
+        public ICommand DetailCommand { get; set; }
+        //Detail Command
+
+        //Add Teacher Command
+        public ICommand AddTeacherCommand { get; set; }
+        //Add Teacher Command
+
+        //Delete Teacher Command
+        public ICommand DeleteTeacherCommand { get; set; }
+        //Delete Teacher Command
+
+        //Add Student Command
+        public ICommand AddStudentCommand { get; set; }
+        //Add Student Command
+
+        //Delete Student Command
+        public ICommand DeleteStudentCommand { get; set; }
+        //Delete Student Command
+
 
         public ClassViewModel()
         {
+            NoteTeacher = "";
+            NoteStudent = "";
             StatusList = new ObservableCollection<Status>
             {
                 new Status { StatusID = 1, StatusName = "Hoạt động" },
@@ -151,20 +255,26 @@ namespace DoAnTotNghiep.ViewModel
             };
 
             List = new ObservableCollection<@class>(DataProvider.Ins.DB.classes);
+
+            TeacherSearchResult = new ObservableCollection<teacher>(DataProvider.Ins.DB.teachers);
+            StudentSearchResult = new ObservableCollection<student>(DataProvider.Ins.DB.students);
+
             ListSemester = new ObservableCollection<semester>(DataProvider.Ins.DB.semesters);
 
             AddCommand = new RelayCommand<object>(
-                (p) => {
-                    if (string.IsNullOrEmpty(ClassName) || SelectedStatus == null || SelectedSemester == null) 
+                (p) =>
+                {
+                    if (string.IsNullOrEmpty(ClassName) || SelectedStatus == null || SelectedSemester == null)
                         return false;
 
                     var displayList = DataProvider.Ins.DB.classes.Where(x => x.class1 == ClassName && x.semesterId == SelectedSemester.id);
-                    if (displayList == null || displayList.Count() != 0) 
+                    if (displayList == null || displayList.Count() != 0)
                         return false;
 
                     return true;
-                }, 
-                (p) => {
+                },
+                (p) =>
+                {
                     var classProp = new @class()
                     {
                         class1 = ClassName,
@@ -177,24 +287,30 @@ namespace DoAnTotNghiep.ViewModel
                         semesterId = SelectedSemester.id,
                         status = SelectedStatus.StatusID
                     };
-                DataProvider.Ins.DB.classes.Add(classProp);
-                DataProvider.Ins.DB.SaveChanges();
+                    DataProvider.Ins.DB.classes.Add(classProp);
+                    DataProvider.Ins.DB.SaveChanges();
 
-                List.Add(classProp);
-            });
+                    List.Add(classProp);
+
+                    MessageBox.Show("Thêm thành công!");
+
+                    ClassName = "";
+                    StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, DateTimeKind.Local);
+                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, DateTimeKind.Local);
+                    SelectedSemester = null;
+                    SelectedStatus = null;
+                });
 
             EditCommand = new RelayCommand<object>(
-                (p) => {
+                (p) =>
+                {
                     if (string.IsNullOrEmpty(ClassName) || SelectedStatus == null || SelectedSemester == null || SelectedItem == null)
-                        return false;
-
-                    var displayList = DataProvider.Ins.DB.classes.Where(x => x.class1 == ClassName && x.semesterId == SelectedSemester.id);
-                    if (displayList == null || displayList.Count() != 0)
                         return false;
 
                     return true;
                 },
-                (p) => {
+                (p) =>
+                {
                     var classProp = DataProvider.Ins.DB.classes.Where(x => x.id == SelectedItem.id).SingleOrDefault();
                     classProp.class1 = ClassName;
                     classProp.updatedAt = DateTime.Now;
@@ -205,14 +321,186 @@ namespace DoAnTotNghiep.ViewModel
                     classProp.status = SelectedStatus.StatusID;
                     DataProvider.Ins.DB.SaveChanges();
 
-                    SelectedItem.class1 = ClassName;
-                    SelectedItem.updatedAt = DateTime.Now;
-                    SelectedItem.updatedBy = CurrentUser.UserID;
-                    SelectedItem.startTime = new TimeSpan(StartTime.Hour, StartTime.Minute, StartTime.Second);
-                    SelectedItem.endTime = new TimeSpan(EndTime.Hour, EndTime.Minute, EndTime.Second);
-                    SelectedItem.semesterId = SelectedSemester.id;
-                    SelectedItem.status = SelectedStatus.StatusID;
+                    MessageBox.Show("Sửa thành công!");
+
+                    ClassName = "";
+                    StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, DateTimeKind.Local);
+                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, DateTimeKind.Local);
+                    SelectedSemester = null;
+                    SelectedStatus = null;
+                });
+            DeleteCommand = new RelayCommand<object>(
+                (p) =>
+                {
+                    if (SelectedItem == null)
+                    {
+                        return true;
+                    }
+                    var displayList = DataProvider.Ins.DB.classes.Where(x => x.id == SelectedItem.id && x.status == 0);
+                    if (displayList.Count() != 0)
+                        return false;
+
+                    return true;
+                },
+                (p) =>
+                {
+                    if (SelectedItem != null && !string.IsNullOrEmpty(ClassName) && SelectedStatus != null && SelectedSemester != null)
+                    {
+                        var classProp = DataProvider.Ins.DB.classes.Where(x => x.id == SelectedItem.id).SingleOrDefault();
+                        classProp.status = 0;
+                        DataProvider.Ins.DB.SaveChanges();
+                        MessageBox.Show("Xóa thành công!");
+                    }
+
+                    ClassName = "";
+                    StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, DateTimeKind.Local);
+                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, DateTimeKind.Local);
+                    SelectedSemester = null;
+                    SelectedStatus = null;
+                });
+            DetailCommand = new RelayCommand<object>(
+                (p) => {
+                    if (SelectedSemester == null)
+                        return false;
+                    var check = DataProvider.Ins.DB.classes.Where(x => x.id == SelectedItem.id && x.status == 0);
+                    if (check.Count() != 0)
+                        return false;
+                    return true; 
+                }, 
+                (p) => {
+                    DetailWindow detailWindow = new DetailWindow();
+                    detailWindow.ShowDialog();
+                });
+
+
+            AddTeacherCommand = new RelayCommand<object>(
+                (p) =>
+                {
+                    if (SelectedTeacher == null)
+                        return false;
+
+                    var check = DataProvider.Ins.DB.teachers.Where(x => x.id == SelectedTeacher.id && x.teacher_class.Count() != 0);
+                    if (check.Count() != 0)
+                        return false;
+
+                    return true;
+                },
+                (p) =>
+                {
+                    var teacherProp = new teacher_class()
+                    {
+                        createdAt = DateTime.Now,
+                        createdBy = CurrentUser.UserID,
+                        updateAt = DateTime.Now,
+                        updatedBy = CurrentUser.UserID,
+                        note = NoteTeacher,
+                        teacherId = SelectedTeacher.id,
+                        classesId = SelectedItem.id,
+                        status = 1
+                    };
+                    DataProvider.Ins.DB.teacher_class.Add(teacherProp);
+                    DataProvider.Ins.DB.SaveChanges();
+
+                    TeacherList.Add(teacherProp);
+
+                    MessageBox.Show("Thêm thành công!");
+
+                    SelectedTeacher = null;
+                    NoteTeacher = null;
+                    TeacherSearchResult = new ObservableCollection<teacher>(DataProvider.Ins.DB.teachers);
+                });
+
+            DeleteTeacherCommand = new RelayCommand<object>(
+                (p) =>
+                {
+                    if (SelectedItemTC == null)
+                        return false;
+
+                    return true;
+                },
+                (p) =>
+                {
+                    var teacherProp = DataProvider.Ins.DB.teacher_class.Where(x => x.id == SelectedItemTC.id).SingleOrDefault();
+                    if (teacherProp != null) DataProvider.Ins.DB.teacher_class.Remove(teacherProp);
+                    DataProvider.Ins.DB.SaveChanges();
+                    MessageBox.Show("Xóa thành công!");
+                    TeacherList.Remove(teacherProp);
+
+                    SelectedTeacher = null;
+                    NoteTeacher = null;
+                    TeacherSearchResult = new ObservableCollection<teacher>(DataProvider.Ins.DB.teachers);
+                });
+
+
+            AddStudentCommand = new RelayCommand<object>(
+                (p) =>
+                {
+                    if (SelectedStudent == null)
+                        return false;
+
+                    var check = DataProvider.Ins.DB.students.Where(x => x.id == SelectedStudent.id && x.students_classes.Count() != 0);
+                    if (check.Count() != 0)
+                        return false;
+
+                    return true;
+                },
+                (p) =>
+                {
+                    var studentProp = new students_classes()
+                    {
+                        createdAt = DateTime.Now,
+                        createdBy = CurrentUser.UserID,
+                        updateAt = DateTime.Now,
+                        updatedBy = CurrentUser.UserID,
+                        note = NoteStudent,
+                        studentId = SelectedStudent.id,
+                        classId = SelectedItem.id,
+                        status = 1
+                    };
+                    DataProvider.Ins.DB.students_classes.Add(studentProp);
+                    DataProvider.Ins.DB.SaveChanges();
+                    MessageBox.Show(studentProp.ToString());
+
+                    StudentList.Add(studentProp);
+
+                    MessageBox.Show("Thêm thành công!");
+
+                    SelectedStudent = null;
+                    NoteStudent = null;
+                    StudentSearchResult = new ObservableCollection<student>(DataProvider.Ins.DB.students);
+                });
+
+            DeleteStudentCommand = new RelayCommand<object>(
+                (p) =>
+                {
+                    if (SelectedItemSC == null)
+                        return false;
+
+                    return true;
+                },
+                (p) =>
+                {
+                    var studentProp = DataProvider.Ins.DB.students_classes.Where(x => x.id == SelectedItemSC.id).SingleOrDefault();
+                    if (studentProp != null) DataProvider.Ins.DB.students_classes.Remove(studentProp);
+                    DataProvider.Ins.DB.SaveChanges();
+                    MessageBox.Show("Xóa thành công!");
+                    StudentList.Remove(studentProp);
+
+
+                    SelectedStudent = null;
+                    NoteStudent = null;
+                    StudentSearchResult = new ObservableCollection<student>(DataProvider.Ins.DB.students);
                 });
         }
+
+        private void LoadData()
+        {
+            if (SelectedItem != null)
+            {
+                TeacherList = new ObservableCollection<teacher_class>(DataProvider.Ins.DB.teacher_class.Where(x => x.classesId == SelectedItem.id));
+                StudentList = new ObservableCollection<students_classes>(DataProvider.Ins.DB.students_classes.Where(x => x.classId == SelectedItem.id));
+            }
+        }
+
     }
 }

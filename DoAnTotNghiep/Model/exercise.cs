@@ -20,7 +20,7 @@ namespace DoAnTotNghiep.Model
         {
             this.homework_student = new HashSet<homework_student>();
         }
-    
+
         public int id { get; set; }
         private Nullable<System.DateTime> _updatedAt;
         private Nullable<int> _updatedBy;
@@ -40,7 +40,7 @@ namespace DoAnTotNghiep.Model
         public System.DateTime dueDate { get => _dueDate; set { _dueDate = value; OnPropertyChanged(); } }
         public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
         public int classesTeacherId { get => _classesTeacherId; set { _classesTeacherId = value; OnPropertyChanged(); } }
-    
+
         public virtual teacher_class teacher_class { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<homework_student> homework_student { get; set; }

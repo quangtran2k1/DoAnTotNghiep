@@ -21,11 +21,11 @@ namespace DoAnTotNghiep.Model
             this.students_classes = new HashSet<students_classes>();
             this.teacher_class = new HashSet<teacher_class>();
         }
-    
+
         public int id { get; set; }
         public System.DateTime createdAt { get; set; }
         private Nullable<System.DateTime> _updatedAt;
-        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); }  }
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
         private Nullable<int> _updatedBy;
         public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
@@ -39,8 +39,8 @@ namespace DoAnTotNghiep.Model
         private byte _status;
         public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
         private int _semesterId;
-        public int semesterId { get => _semesterId; set { _semesterId = value; OnPropertyChanged();  } }
-    
+        public int semesterId { get => _semesterId; set { _semesterId = value; OnPropertyChanged(); } }
+
         public virtual semester semester { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<students_classes> students_classes { get; set; }

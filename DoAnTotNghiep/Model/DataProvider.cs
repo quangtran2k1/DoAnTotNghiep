@@ -22,11 +22,11 @@ namespace DoAnTotNghiep.Model
             } 
         }
         
-        public HanoiConnectionEntities1 DB { get; set; }
+        public HanoiConnectionEntities DB { get; set; }
 
         private DataProvider()
         {
-            DB = new HanoiConnectionEntities1();
+            DB = new HanoiConnectionEntities();
         }
     }
 }

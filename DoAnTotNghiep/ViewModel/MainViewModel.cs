@@ -23,10 +23,12 @@ namespace DoAnTotNghiep.ViewModel
         public int classCount { get => _classCount; set { _classCount = value; OnPropertyChanged(); } }
         public ICommand LoadedWindowCommand { get; set; }
         public ICommand ClassesWindowCommand { get; set; }
+        public ICommand SemestersWindowCommand { get; set; }
         public ICommand UsersWindowCommand { get; set; }
-        public ICommand TeacherEditWindowCommand { get; set; }
         public ICommand EditPassWindow { get; set; }
-        public ICommand MainUserWindow { get; set; }
+        public ICommand StudentWindowCommand { get; set; }
+        public ICommand TeacherWindowCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
 
         public MainViewModel()
         {
@@ -45,8 +47,8 @@ namespace DoAnTotNghiep.ViewModel
                 }
                 else if (loginVM.IsStudentLogin) 
                 {
-                    MainUserWindow mainUserWindow = new MainUserWindow();
-                    mainUserWindow.Show();
+                    StudentMainWindow studentMainWindow = new StudentMainWindow();
+                    studentMainWindow.Show();
                     p.Close();
                 }
                 else p.Close();
@@ -57,14 +59,14 @@ namespace DoAnTotNghiep.ViewModel
                 classesWindow.ShowDialog();
             });
 
+            SemestersWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                SemestersWindow semestersWindow = new SemestersWindow();
+                semestersWindow.ShowDialog();
+            });
+
             UsersWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
                 UsersWindow usersWindow = new UsersWindow();
                 usersWindow.ShowDialog();
-            });
-
-            TeacherEditWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
-                TeacherEditWindow teacherEdit = new TeacherEditWindow();
-                teacherEdit.ShowDialog();
             });
 
             EditPassWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
@@ -72,13 +74,18 @@ namespace DoAnTotNghiep.ViewModel
                 editPassWindow.ShowDialog();
             });
 
-            MainUserWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
-                MainUserWindow mainUserWindow = new MainUserWindow();
-                mainUserWindow.ShowDialog();
+            StudentWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                StudentManagerWindow studentManagerWindow = new StudentManagerWindow();
+                studentManagerWindow.ShowDialog();
             });
 
-            studentCount = DataProvider.Ins.DB.users.Where(u => u.roles.FirstOrDefault().role1 == "Student" && u.status == 1).Count();
-            teacherCount = DataProvider.Ins.DB.users.Where(u => u.roles.FirstOrDefault().role1 == "Teacher" && u.status == 1).Count();
+            TeacherWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                TeacherManagerWindow teacherManagerWindow = new TeacherManagerWindow();
+                teacherManagerWindow.ShowDialog();
+            });
+
+            studentCount = DataProvider.Ins.DB.users.Where(u => u.role.id == 2 && u.status == 1).Count();
+            teacherCount = DataProvider.Ins.DB.users.Where(u => u.role.id == 4 && u.status == 1).Count();
             classCount = DataProvider.Ins.DB.classes.Where(c => c.status == 1).Count();
 
         }
@@ -91,8 +98,8 @@ namespace DoAnTotNghiep.ViewModel
             int i = 1;
             foreach (var item in rolesList)
             {
-                var countActiavted = DataProvider.Ins.DB.users.Where(u => u.roles.FirstOrDefault().id == item.id && u.status == 1).Count();
-                var countNotActiavted = DataProvider.Ins.DB.users.Where(u => u.roles.FirstOrDefault().id == item.id && u.status == 2).Count();
+                var countActiavted = DataProvider.Ins.DB.users.Where(u => u.role.id == item.id && u.status == 1).Count();
+                var countNotActiavted = DataProvider.Ins.DB.users.Where(u => u.role.id == item.id && u.status == 2).Count();
 
                 UserCount userCount = new UserCount();
                 userCount.STT = i;

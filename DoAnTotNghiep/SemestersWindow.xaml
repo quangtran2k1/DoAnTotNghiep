@@ -1,4 +1,4 @@
-﻿<Window x:Class="DoAnTotNghiep.UsersWindow"
+﻿<Window x:Class="DoAnTotNghiep.SemestersWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,8 +24,8 @@
         BorderThickness="1"
         x:Name="window"
         
-        DataContext="{StaticResource UserAccountVM}"
-        Title="Danh sách người dùng" Height="450" Width="800">
+        DataContext="{StaticResource SemesterVM}"
+        Title="Danh sách học kỳ" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -34,10 +34,8 @@
         <Grid Grid.Row="0">
             <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
         </Grid>
-
+        <!--main-->
         <Grid Grid.Row="1">
-
-            <!--main-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -51,7 +49,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -59,33 +56,11 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBox
-                                Grid.Column="0"
-                                Margin="10"
-                                materialDesign:HintAssist.Hint="Tên tài khoản"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                Text="{Binding UserName}"/>
-                        <ComboBox
-                            Grid.Column="1"
-                            Margin="10"
-                            materialDesign:HintAssist.Hint="Quyền"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                            SelectedValue="{Binding SelectedRole, UpdateSourceTrigger=PropertyChanged}"
-                            ItemsSource="{Binding ListRole}"
-                            DisplayMemberPath="role1">
-                        </ComboBox>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBox
                             Grid.Column="0"
                             Margin="10"
-                            materialDesign:HintAssist.Hint="Email"
+                            materialDesign:HintAssist.Hint="Tên khối"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                            
-                            Text="{Binding Email}"/>
+                            Text="{Binding Block, UpdateSourceTrigger=PropertyChanged}"/>
                         <ComboBox 
                             Grid.Column="1"
                             Margin="10"
@@ -97,24 +72,25 @@
                             SelectedValuePath="StatusID"
                             SelectedValue="{Binding SelectedStatus.StatusID, Mode=TwoWay}">
                         </ComboBox>
+                        
                     </Grid>
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <PasswordBox
-                            x:Name="FloatingPasswordBox"
+                        <DatePicker
                             Grid.Column="0"
                             Margin="10"
-                            materialDesign:HintAssist.Hint="Mật khẩu"
-                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PasswordChanged">
-                                    <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" CommandParameter="{Binding ElementName=FloatingPasswordBox}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </PasswordBox>
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            materialDesign:HintAssist.Hint="Thời gian bắt đầu học kỳ" 
+                            SelectedDate="{Binding StartSemester, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DatePicker
+                            Grid.Column="1"
+                            Margin="10"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            materialDesign:HintAssist.Hint="Thời gian kết thúc học kỳ" 
+                            SelectedDate="{Binding EndSemester, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </Grid>
             </materialDesign:Card>
@@ -130,7 +106,7 @@
                         Style="{StaticResource MaterialDesignRaisedDarkButton}"
                         Command="{Binding AddCommand}"
                         Width="100"
-                        ToolTip="Thêm người dùng">
+                        ToolTip="Thêm lớp">
                         <WrapPanel>
                             <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
                             <TextBlock Text="Thêm"></TextBlock>
@@ -143,20 +119,20 @@
                         Style="{StaticResource MaterialDesignRaisedDarkButton}"
                         Command="{Binding EditCommand}"
                         Width="100"
-                        ToolTip="Sửa người dùng">
+                        ToolTip="Sửa lớp">
                         <WrapPanel>
                             <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
                             <TextBlock Text="Sửa"></TextBlock>
                         </WrapPanel>
                     </Button>
                     <Button
-                            Margin="10 10 10 10"
-                            Background="#c7232b"
-                            BorderBrush="#c7232b"
-                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            Command="{Binding DeleteCommand}"
-                            Width="100"
-                            ToolTip="Xóa người dùng">
+                        Margin="10 10 10 10"
+                        Background="#c7232b"
+                        BorderBrush="#c7232b"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                        Command="{Binding DeleteCommand}"
+                        Width="100"
+                        ToolTip="Xóa lớp">
                         <WrapPanel>
                             <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
                             <TextBlock Text="Xóa"></TextBlock>
@@ -174,12 +150,14 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" DisplayMemberBinding="{Binding id}"></GridViewColumn>
-                                <GridViewColumn Header="Tên tài khoản" DisplayMemberBinding="{Binding username}"></GridViewColumn>
-                                <GridViewColumn Header="Email" DisplayMemberBinding="{Binding email}"></GridViewColumn>
-                                <GridViewColumn Header="Quyền" DisplayMemberBinding="{Binding role.role1}"></GridViewColumn>
+                                <GridViewColumn Header="Khối" DisplayMemberBinding="{Binding block}"></GridViewColumn>
+                                <GridViewColumn Header="Bắt đầu học kỳ" DisplayMemberBinding="{Binding startSemester}"></GridViewColumn>
+                                <GridViewColumn Header="Kết thúc học kỳ" DisplayMemberBinding="{Binding endSemester}"></GridViewColumn>
                                 <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding status}"></GridViewColumn>
                                 <GridViewColumn Header="Thời gian tạo" DisplayMemberBinding="{Binding createdAt}"></GridViewColumn>
+                                <GridViewColumn Header="Người tạo" DisplayMemberBinding="{Binding createdBy}"></GridViewColumn>
                                 <GridViewColumn Header="Thời gian cập nhật" DisplayMemberBinding="{Binding updatedAt}"></GridViewColumn>
+                                <GridViewColumn Header="Người cập nhật" DisplayMemberBinding="{Binding updatedBy}"></GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>

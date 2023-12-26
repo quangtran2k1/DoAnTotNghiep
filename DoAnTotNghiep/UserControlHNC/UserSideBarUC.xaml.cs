@@ -1,5 +1,4 @@
-﻿using DoAnTotNghiep.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DoAnTotNghiep
+namespace DoAnTotNghiep.UserControlHNC
 {
     /// <summary>
-    /// Interaction logic for MainUserWindow.xaml
+    /// Interaction logic for UserSideBarUC.xaml
     /// </summary>
-    public partial class MainUserWindow : Window
+    public partial class UserSideBarUC : UserControl
     {
-        public MainUserWindow()
+        public UserSideBarUC()
         {
             InitializeComponent();
         }

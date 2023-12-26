@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="DoAnTotNghiep.UserControlHNC.UserSideBarUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAnTotNghiep.UserControlHNC"
+             mc:Ignorable="d" 
+             
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Name="ucSideBarUser">
+
+    <Grid>
+        <materialDesign:DrawerHost
+            BorderThickness="1"
+            BorderBrush="{DynamicResource MaterialDesignDivider}">
+            <DockPanel>
+                <StackPanel
+                    Orientation="Vertical"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    Background="Transparent">
+                    <ToggleButton
+                        Margin="4"
+                        Style="{StaticResource MaterialDesignActionToggleButton}">
+                        <ToggleButton.Content>
+                            <Image Source="{Binding UserAvatar}" Stretch="UniformToFill"/>
+                        </ToggleButton.Content>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <Image Source="{Binding UserAvatar}" Stretch="UniformToFill"/>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+                    </ToggleButton>
+                    <Button
+                        Background="Transparent"
+                        BorderBrush="#af2026"
+                        BorderThickness="1"
+                        Command="{Binding ClassesWindowCommand}"
+                        Margin="4">
+                        <materialDesign:PackIcon
+                            Kind="AccountMultiple" 
+                            Foreground="#af2026"/>
+                    </Button>
+                    <Button
+                        Background="Transparent"
+                        BorderBrush="#af2026"
+                        BorderThickness="1"
+                        Command="{Binding EditInfo}"
+                        ToolTip="Chỉnh sửa thông tin cá nhân"
+                        Margin="4">
+                        <materialDesign:PackIcon
+                            Kind="Account" 
+                            Foreground="#af2026"/>
+                    </Button>
+                    <Button
+                        Background="Transparent"
+                        BorderBrush="#af2026"
+                        BorderThickness="1"
+                        Command="{Binding UploadPractice}"
+                        ToolTip="Bài tập"
+                        Margin="4">
+                        <materialDesign:PackIcon
+                            Kind="File" 
+                            Foreground="#af2026"/>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel
+                        DockPanel.Dock="Bottom"
+                        VerticalAlignment="Bottom">
+                    <Button
+                        Background="#af2026"
+                        BorderBrush="Transparent"
+                        Margin="4"
+                        Command="{Binding LogoutCommand}">
+                        <materialDesign:PackIcon
+                            Kind="Logout" />
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </Grid>
+</UserControl>

@@ -24,6 +24,7 @@
         BorderThickness="1" 
         x:Name="window"
         
+        DataContext="{StaticResource ClassVM}"
         Title="Chi tiết lớp học" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -48,124 +49,179 @@
                     Grid.Row="0"
                     Margin="5 10 5 10">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <ComboBox
-                            Grid.Column="0"
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            FontWeight="Bold"
                             Margin="10"
-                            materialDesign:HintAssist.Hint="Quyền"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                            SelectedValue="{Binding roleId}">
-                            <ComboBoxItem Content="Quản trị">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Giáo viên">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Học sinh">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Phụ huynh">
-                            </ComboBoxItem>
-                        </ComboBox>
+                            HorizontalAlignment="Left"
+                            FontSize="20"
+                            Text="Giáo viên"/>
                         <ComboBox
-                            Grid.Column="1"
+                            Grid.Row="1"
                             Margin="10"
-                            materialDesign:HintAssist.Hint="Họ tên"
+                            materialDesign:HintAssist.Hint="Giáo viên"
                             IsEditable="True"
                             Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                            SelectedValue="{Binding status}">
-                            <ComboBoxItem Content="Mã số 01 - Họ tên">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Mã số 02 - Họ tên">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Mã số 03 - Họ tên">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Mã số - Họ tên">
-                            </ComboBoxItem>
-                            <ComboBoxItem Content="Mã số - Họ tên">
-                            </ComboBoxItem>
-                        </ComboBox>
+                            SelectedValue="{Binding SelectedTeacher, UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding TeacherSearchResult}"
+                            DisplayMemberPath="name"/>
+                        <TextBox
+                            Grid.Row="2"
+                            Margin="10"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Stretch"
+                            MinWidth="280"
+                            AcceptsReturn="True"
+                            VerticalScrollBarVisibility="Auto"
+                            SpellCheck.IsEnabled="True"
+                            materialDesign:HintAssist.Hint="Ghi chú"
+                            Height="60"
+                            Text="{Binding NoteTeacher}"/>
+                        <WrapPanel Grid.Row="3">
+                            <Button
+                            Margin="10 10 10 10"
+                            Background="#4cc459"
+                            BorderBrush="#4cc459"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Command="{Binding AddTeacherCommand}"
+                            Width="100"
+                            ToolTip="Thêm giáo viên">
+                                <WrapPanel>
+                                    <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                    <TextBlock Text="Thêm"></TextBlock>
+                                </WrapPanel>
+                            </Button>
+                            <Button
+                            Margin="10 10 10 10"
+                            Background="#c7232b"
+                            BorderBrush="#c7232b"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Command="{Binding DeleteTeacherCommand}"
+                            Width="100"
+                            ToolTip="Xóa giáo viên">
+                                <WrapPanel>
+                                    <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                    <TextBlock Text="Xóa"></TextBlock>
+                                </WrapPanel>
+                            </Button>
+                        </WrapPanel>
                     </Grid>
                 </materialDesign:Card>
 
                 <materialDesign:Card 
                     Grid.Row="1"
                     Margin="5 10 5 10">
-                    <WrapPanel>
-                        <Button
-                            Margin="10 10 10 10"
-                            Background="#4cc459"
-                            BorderBrush="#4cc459"
-                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            Command="{Binding AddCommand}"
-                            Width="100"
-                            ToolTip="Thêm người dùng">
-                            <WrapPanel>
-                                <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
-                                <TextBlock Text="Thêm"></TextBlock>
-                            </WrapPanel>
-                        </Button>
-                        <Button
-                            Margin="10 10 10 10"
-                            Background="#c7232b"
-                            BorderBrush="#c7232b"
-                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            Command="{Binding DeleteCommand}"
-                            Width="100"
-                            ToolTip="Xóa người dùng">
-                            <WrapPanel>
-                                <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
-                                <TextBlock Text="Xóa"></TextBlock>
-                            </WrapPanel>
-                        </Button>
-                    </WrapPanel>
                 </materialDesign:Card>
-                <TextBlock
-                    Grid.Row="2"
-                    FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    FontSize="20"
-                    Text="Giáo viên"/>
                 <materialDesign:Card
                     Grid.Row="3"
                     Margin="5 10 5 10"
+                    Height="200"
                     VerticalAlignment="Stretch">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                        <ListView ItemsSource="{Binding TeacherList}" SelectedItem="{Binding SelectedItemTC, Mode=OneWayToSource}">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding id}"></GridViewColumn>
-                                    <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding name}"></GridViewColumn>
-                                    <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding citizenIdentification}"></GridViewColumn>
-                                    <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding sex}"></GridViewColumn>
-                                    <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding dateOfBirth}"></GridViewColumn>
-                                    <GridViewColumn Header="Quốc tịch" DisplayMemberBinding="{Binding nation}"></GridViewColumn>
-                                    <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding phone}"></GridViewColumn>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding teacher.id}"></GridViewColumn>
+                                    <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding teacher.name}"></GridViewColumn>
+                                    <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding teacher.citizenIdentification}"></GridViewColumn>
+                                    <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding teacher.sex}"></GridViewColumn>
+                                    <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding teacher.dateOfBirth}"></GridViewColumn>
+                                    <GridViewColumn Header="Quốc tịch" DisplayMemberBinding="{Binding teacher.nation}"></GridViewColumn>
+                                    <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding teacher.phone}"></GridViewColumn>
                                     <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding note}"></GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                     </ScrollViewer>
                 </materialDesign:Card>
-                <TextBlock
+                <materialDesign:Card 
                     Grid.Row="4"
-                    FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    FontSize="20"
-                    Text="Học sinh"/>
+                    Margin="5 10 5 10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            FontWeight="Bold"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            FontSize="20"
+                            Text="Học sinh"/>
+                        <ComboBox
+                            Grid.Row="1"
+                            Margin="10"
+                            materialDesign:HintAssist.Hint="Học sinh"
+                            IsEditable="True"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                            SelectedValue="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding StudentSearchResult}"
+                            DisplayMemberPath="name"/>
+                        <TextBox
+                            Grid.Row="2"
+                            Margin="10"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Stretch"
+                            MinWidth="280"
+                            AcceptsReturn="True"
+                            VerticalScrollBarVisibility="Auto"
+                            SpellCheck.IsEnabled="True"
+                            materialDesign:HintAssist.Hint="Ghi chú"
+                            Height="60"
+                            Text="{Binding NoteStudent}"/>
+                        <WrapPanel Grid.Row="3">
+                            <Button
+                            Margin="10 10 10 10"
+                            Background="#4cc459"
+                            BorderBrush="#4cc459"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Command="{Binding AddStudentCommand}"
+                            Width="100"
+                            ToolTip="Thêm học sinh">
+                                <WrapPanel>
+                                    <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                    <TextBlock Text="Thêm"></TextBlock>
+                                </WrapPanel>
+                            </Button>
+                            <Button
+                            Margin="10 10 10 10"
+                            Background="#c7232b"
+                            BorderBrush="#c7232b"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Command="{Binding DeleteStudentCommand}"
+                            Width="100"
+                            ToolTip="Xóa học sinh">
+                                <WrapPanel>
+                                    <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                    <TextBlock Text="Xóa"></TextBlock>
+                                </WrapPanel>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+                </materialDesign:Card>
                 <materialDesign:Card
                     Grid.Row="5"
                     Margin="5 10 5 10"
+                    Height="200"
                     VerticalAlignment="Stretch">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                        <ListView ItemsSource="{Binding StudentList}" SelectedItem="{Binding SelectedItemSC, Mode=OneWayToSource}">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding id}"></GridViewColumn>
-                                    <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding name}"></GridViewColumn>
-                                    <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding sex}"></GridViewColumn>
-                                    <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding dateOfBirth}"></GridViewColumn>
-                                    <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding address}"></GridViewColumn>
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding student.id}"></GridViewColumn>
+                                    <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding student.name}"></GridViewColumn>
+                                    <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding student.sex}"></GridViewColumn>
+                                    <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding student.dateOfBirth}"></GridViewColumn>
+                                    <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding student.address}"></GridViewColumn>
                                     <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding note}"></GridViewColumn>
                                 </GridView>
                             </ListView.View>

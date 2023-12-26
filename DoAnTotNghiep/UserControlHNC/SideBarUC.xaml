@@ -34,10 +34,10 @@
                                 Style="{StaticResource MaterialDesignActionAccentToggleButton}"
                                 Command="{Binding EditPassWindow}">
                                 <ToggleButton.Content>
-                                    <Image Source="/Images/IMG_2698.jpeg" Stretch="UniformToFill"/>
+                                    <Image Source="/Images/User/default-avatar-image.png" Stretch="UniformToFill"/>
                                 </ToggleButton.Content>
                                 <materialDesign:ToggleButtonAssist.OnContent>
-                                    <Image Source="/Images/IMG_2698.jpeg" Stretch="UniformToFill"/>
+                                    <Image Source="/Images/User/default-avatar-image.png" Stretch="UniformToFill"/>
                                 </materialDesign:ToggleButtonAssist.OnContent>
                             </ToggleButton>
                             <Button
@@ -74,18 +74,11 @@
                         <Button
                             Margin="4 10"
                             HorizontalAlignment="Left"
-                            Command="{Binding SemesterWindowCommand}"
+                            Command="{Binding SemestersWindowCommand}"
                             Style="{DynamicResource MaterialDesignFlatButton}"
                             Content="DS Kỳ học">
                         </Button>
                         <Separator/>
-                        <Button
-                            Margin="4 10"
-                            HorizontalAlignment="Left"
-                            Command="{Binding SemesterWindowCommand}"
-                            Style="{DynamicResource MaterialDesignFlatButton}"
-                            Content="DS Kỳ học">
-                        </Button>
                         <Button
                             Margin="4 10"
                             HorizontalAlignment="Left"
@@ -96,16 +89,23 @@
                         <Button
                             Margin="4 10"
                             HorizontalAlignment="Left"
-                            Command="{Binding TeachersWindowCommand}"
+                            Command="{Binding StudentWindowCommand}"
+                            Style="{DynamicResource MaterialDesignFlatButton}"
+                            Content="DS Học sinh">
+                        </Button>
+                        <Button
+                            Margin="4 10"
+                            HorizontalAlignment="Left"
+                            Command="{Binding TeacherWindowCommand}"
                             Style="{DynamicResource MaterialDesignFlatButton}"
                             Content="DS Giáo viên">
                         </Button>
                         <Button
                             Margin="4 10"
                             HorizontalAlignment="Left"
-                            Command="{Binding MainUserWindow}"
+                            Command="{Binding ParentWindowCommand}"
                             Style="{DynamicResource MaterialDesignFlatButton}"
-                            Content="DS Học sinh">
+                            Content="Phụ huynh HS">
                         </Button>
                     </StackPanel>
                     <StackPanel
@@ -114,7 +114,8 @@
                         <Button
                         Background="#af2026"
                         BorderBrush="Transparent"
-                        Margin="4">
+                        Margin="4"
+                        Command="{Binding LogoutCommand}">
                             <StackPanel 
                                 VerticalAlignment="Center" 
                                 HorizontalAlignment="Center" 
@@ -138,10 +139,10 @@
                         Margin="4"
                         Style="{StaticResource MaterialDesignActionToggleButton}">
                         <ToggleButton.Content>
-                            <Image Source="/Images/IMG_2698.jpeg" Stretch="UniformToFill"/>
+                            <Image Source="/Images/User/default-avatar-image.png" Stretch="UniformToFill"/>
                         </ToggleButton.Content>
                         <materialDesign:ToggleButtonAssist.OnContent>
-                            <Image Source="/Images/IMG_2698.jpeg" Stretch="UniformToFill"/>
+                            <Image Source="/Images/User/default-avatar-image.png" Stretch="UniformToFill"/>
                         </materialDesign:ToggleButtonAssist.OnContent>
                     </ToggleButton>
                     <Button
@@ -181,7 +182,8 @@
                     <Button
                         Background="#af2026"
                         BorderBrush="Transparent"
-                        Margin="4">
+                        Margin="4"
+                        Command="{Binding LogoutCommand}">
                         <materialDesign:PackIcon
                             Kind="Logout" />
                     </Button>

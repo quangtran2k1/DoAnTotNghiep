@@ -117,7 +117,6 @@
           <Property Name="status" Type="tinyint" Nullable="false" />
           <Property Name="studentId" Type="int" Nullable="false" />
           <Property Name="classId" Type="int" Nullable="false" />
-          <Property Name="teacherId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="teacher_class">
           <Key>
@@ -163,15 +162,6 @@
           <Property Name="status" Type="tinyint" Nullable="false" />
           <Property Name="createdAt" Type="datetime" Nullable="false" />
           <Property Name="updatedAt" Type="datetime" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="users_roles">
-          <Key>
-            <PropertyRef Name="userId" />
-            <PropertyRef Name="roleId" />
-          </Key>
-          <Property Name="userId" Type="int" Nullable="false" />
           <Property Name="roleId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_classes_semester">
@@ -270,18 +260,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_students_classes_teachers">
-          <End Role="teachers" Type="Self.teachers" Multiplicity="1" />
-          <End Role="students_classes" Type="Self.students_classes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="teachers">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="students_classes">
-              <PropertyRef Name="teacherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_students_users">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="students" Type="Self.students" Multiplicity="*" />
@@ -330,27 +308,15 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_users_roles_role">
+        <Association Name="FK_users_role">
           <End Role="role" Type="Self.role" Multiplicity="1" />
-          <End Role="users_roles" Type="Self.users_roles" Multiplicity="*" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="role">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="users_roles">
+            <Dependent Role="users">
               <PropertyRef Name="roleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_users_roles_users">
-          <End Role="users" Type="Self.users" Multiplicity="1" />
-          <End Role="users_roles" Type="Self.users_roles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="users_roles">
-              <PropertyRef Name="userId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -366,12 +332,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
           <EntitySet Name="teacher_class" EntityType="Self.teacher_class" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="teachers" EntityType="Self.teachers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="users_roles" EntityType="Self.users_roles" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [users_roles].[userId] AS [userId], 
-    [users_roles].[roleId] AS [roleId]
-    FROM [dbo].[users_roles] AS [users_roles]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_classes_semester" Association="Self.FK_classes_semester">
             <End Role="semester" EntitySet="semester" />
             <End Role="classes" EntitySet="classes" />
@@ -404,10 +364,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             <End Role="students" EntitySet="students" />
             <End Role="students_classes" EntitySet="students_classes" />
           </AssociationSet>
-          <AssociationSet Name="FK_students_classes_teachers" Association="Self.FK_students_classes_teachers">
-            <End Role="teachers" EntitySet="teachers" />
-            <End Role="students_classes" EntitySet="students_classes" />
-          </AssociationSet>
           <AssociationSet Name="FK_students_users" Association="Self.FK_students_users">
             <End Role="users" EntitySet="users" />
             <End Role="students" EntitySet="students" />
@@ -424,13 +380,9 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             <End Role="users" EntitySet="users" />
             <End Role="teachers" EntitySet="teachers" />
           </AssociationSet>
-          <AssociationSet Name="FK_users_roles_role" Association="Self.FK_users_roles_role">
+          <AssociationSet Name="FK_users_role" Association="Self.FK_users_role">
             <End Role="role" EntitySet="role" />
-            <End Role="users_roles" EntitySet="users_roles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_users_roles_users" Association="Self.FK_users_roles_users">
             <End Role="users" EntitySet="users" />
-            <End Role="users_roles" EntitySet="users_roles" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -514,7 +466,7 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="role1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="users" Relationship="Self.users_roles" FromRole="role" ToRole="users" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_role" FromRole="role" ToRole="users" />
         </EntityType>
         <EntityType Name="semester">
           <Key>
@@ -565,10 +517,8 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
           <Property Name="status" Type="Byte" Nullable="false" />
           <Property Name="studentId" Type="Int32" Nullable="false" />
           <Property Name="classId" Type="Int32" Nullable="false" />
-          <Property Name="teacherId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="class" Relationship="Self.FK_students_classes_classes" FromRole="students_classes" ToRole="classes" />
           <NavigationProperty Name="student" Relationship="Self.FK_students_classes_students" FromRole="students_classes" ToRole="students" />
-          <NavigationProperty Name="teacher" Relationship="Self.FK_students_classes_teachers" FromRole="students_classes" ToRole="teachers" />
         </EntityType>
         <EntityType Name="teacher_class">
           <Key>
@@ -605,7 +555,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="status" Type="Byte" Nullable="false" />
           <Property Name="userId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="students_classes" Relationship="Self.FK_students_classes_teachers" FromRole="teachers" ToRole="students_classes" />
           <NavigationProperty Name="teacher_class" Relationship="Self.FK_teacher_class_teachers" FromRole="teachers" ToRole="teacher_class" />
           <NavigationProperty Name="user" Relationship="Self.FK_teachers_users" FromRole="teachers" ToRole="users" />
         </EntityType>
@@ -620,10 +569,11 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
           <Property Name="status" Type="Byte" Nullable="false" />
           <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updatedAt" Type="DateTime" Precision="3" />
+          <Property Name="roleId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="parents" Relationship="Self.FK_parents_users" FromRole="users" ToRole="parents" />
+          <NavigationProperty Name="role" Relationship="Self.FK_users_role" FromRole="users" ToRole="role" />
           <NavigationProperty Name="students" Relationship="Self.FK_students_users" FromRole="users" ToRole="students" />
           <NavigationProperty Name="teachers" Relationship="Self.FK_teachers_users" FromRole="users" ToRole="teachers" />
-          <NavigationProperty Name="roles" Relationship="Self.users_roles" FromRole="users" ToRole="role" />
         </EntityType>
         <Association Name="FK_classes_semester">
           <End Role="semester" Type="Self.semester" Multiplicity="1" />
@@ -721,6 +671,18 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_users_role">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_students_classes_students">
           <End Role="students" Type="Self.student" Multiplicity="1" />
           <End Role="students_classes" Type="Self.students_classes" Multiplicity="*" />
@@ -742,18 +704,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             </Principal>
             <Dependent Role="students">
               <PropertyRef Name="userId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_students_classes_teachers">
-          <End Role="teachers" Type="Self.teacher" Multiplicity="1" />
-          <End Role="students_classes" Type="Self.students_classes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="teachers">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="students_classes">
-              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -781,11 +731,7 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="users_roles">
-          <End Role="role" Type="Self.role" Multiplicity="*" />
-          <End Role="users" Type="Self.user" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="HanoiConnectionEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HanoiConnectionEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="classes" EntityType="Self.class" />
           <EntitySet Name="exercises" EntityType="Self.exercise" />
           <EntitySet Name="homework_student" EntityType="Self.homework_student" />
@@ -829,6 +775,10 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             <End Role="users" EntitySet="users" />
             <End Role="parents" EntitySet="parents" />
           </AssociationSet>
+          <AssociationSet Name="FK_users_role" Association="Self.FK_users_role">
+            <End Role="role" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
           <AssociationSet Name="FK_students_classes_students" Association="Self.FK_students_classes_students">
             <End Role="students" EntitySet="students" />
             <End Role="students_classes" EntitySet="students_classes" />
@@ -836,10 +786,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
           <AssociationSet Name="FK_students_users" Association="Self.FK_students_users">
             <End Role="users" EntitySet="users" />
             <End Role="students" EntitySet="students" />
-          </AssociationSet>
-          <AssociationSet Name="FK_students_classes_teachers" Association="Self.FK_students_classes_teachers">
-            <End Role="teachers" EntitySet="teachers" />
-            <End Role="students_classes" EntitySet="students_classes" />
           </AssociationSet>
           <AssociationSet Name="FK_teacher_class_teachers" Association="Self.FK_teacher_class_teachers">
             <End Role="teachers" EntitySet="teachers" />
@@ -849,17 +795,13 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
             <End Role="users" EntitySet="users" />
             <End Role="teachers" EntitySet="teachers" />
           </AssociationSet>
-          <AssociationSet Name="users_roles" Association="Self.users_roles">
-            <End Role="role" EntitySet="roles" />
-            <End Role="users" EntitySet="users" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HanoiConnectionModelStoreContainer" CdmEntityContainer="HanoiConnectionEntities1">
+        <EntityContainerMapping StorageEntityContainer="HanoiConnectionModelStoreContainer" CdmEntityContainer="HanoiConnectionEntities">
           <EntitySetMapping Name="classes">
             <EntityTypeMapping TypeName="HanoiConnectionModel.class">
               <MappingFragment StoreEntitySet="classes">
@@ -978,7 +920,6 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="studentId" ColumnName="studentId" />
                 <ScalarProperty Name="classId" ColumnName="classId" />
-                <ScalarProperty Name="teacherId" ColumnName="teacherId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1027,17 +968,10 @@ warning 6002: The table/view 'HanoiConnection.dbo.users_roles' does not have a p
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
                 <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="users_roles" TypeName="HanoiConnectionModel.users_roles" StoreEntitySet="users_roles">
-            <EndProperty Name="role">
-              <ScalarProperty Name="id" ColumnName="roleId" />
-            </EndProperty>
-            <EndProperty Name="users">
-              <ScalarProperty Name="id" ColumnName="userId" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -12,16 +12,15 @@ namespace DoAnTotNghiep.Model
     using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class teacher : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public teacher()
         {
-            this.students_classes = new HashSet<students_classes>();
             this.teacher_class = new HashSet<teacher_class>();
         }
-    
+
         public int id { get; set; }
         private Nullable<System.DateTime> _updatedAt;
         private Nullable<int> _updatedBy;
@@ -46,9 +45,7 @@ namespace DoAnTotNghiep.Model
         public string avatar { get => _avatar; set { _avatar = value; OnPropertyChanged(); } }
         public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
         public int userId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<students_classes> students_classes { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<teacher_class> teacher_class { get; set; }
         public virtual user user { get; set; }

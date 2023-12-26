@@ -9,21 +9,28 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class homework_student
+    public partial class homework_student :BaseViewModel
     {
         public int id { get; set; }
+        private Nullable<System.DateTime> _updatedAt { get; set; }
+        private Nullable<int> _updatedBy { get; set; }
+        private Nullable<double> _point { get; set; }
+        private byte _status { get; set; }
+        private int _exerciseId { get; set; }
+        private int _studentId { get; set; }
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get; set; }
-        public Nullable<double> point { get; set; }
-        public byte status { get; set; }
-        public int exerciseId { get; set; }
-        public int studentId { get; set; }
-    
+        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
+        public Nullable<double> point { get => _point; set { _point = value; OnPropertyChanged(); } }
+        public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
+        public int exerciseId { get => _exerciseId; set { _exerciseId = value; OnPropertyChanged(); } }
+        public int studentId { get => _studentId; set { _studentId = value; OnPropertyChanged(); } }
+
         public virtual exercise exercise { get; set; }
         public virtual student student { get; set; }
     }

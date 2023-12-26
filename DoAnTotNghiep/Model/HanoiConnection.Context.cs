@@ -13,10 +13,10 @@ namespace DoAnTotNghiep.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HanoiConnectionEntities1 : DbContext
+    public partial class HanoiConnectionEntities : DbContext
     {
-        public HanoiConnectionEntities1()
-            : base("name=HanoiConnectionEntities1")
+        public HanoiConnectionEntities()
+            : base("name=HanoiConnectionEntities")
         {
         }
     

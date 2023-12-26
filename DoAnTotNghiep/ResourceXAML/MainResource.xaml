@@ -4,4 +4,9 @@
     <viewmodel:MainViewModel x:Key="MainVM"></viewmodel:MainViewModel>
     <viewmodel:LoginViewModel x:Key="LoginVM"></viewmodel:LoginViewModel>
     <viewmodel:ClassViewModel x:Key="ClassVM"></viewmodel:ClassViewModel>
+    <viewmodel:UserAccountViewModel x:Key="UserAccountVM"></viewmodel:UserAccountViewModel>
+    <viewmodel:SemesterViewModel x:Key="SemesterVM"></viewmodel:SemesterViewModel>
+    <viewmodel:StudentViewModel x:Key="StudentVM"></viewmodel:StudentViewModel>
+    <viewmodel:TeacherViewModel x:Key="TeacherVM"></viewmodel:TeacherViewModel>
+    <viewmodel:MainUserViewModel x:Key="MainUserVM"></viewmodel:MainUserViewModel>
 </ResourceDictionary>

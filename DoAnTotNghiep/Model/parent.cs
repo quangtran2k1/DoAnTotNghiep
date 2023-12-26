@@ -33,7 +33,7 @@ namespace DoAnTotNghiep.Model
         public string momPhone { get => _momPhone; set { _momPhone = value; OnPropertyChanged(); } }
         public int studentId { get => _studentId; set { _studentId = value; OnPropertyChanged(); } }
         public int usersId { get; set; }
-    
+
         public virtual student student { get; set; }
         public virtual user user { get; set; }
     }

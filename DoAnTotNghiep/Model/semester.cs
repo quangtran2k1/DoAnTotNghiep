@@ -12,7 +12,7 @@ namespace DoAnTotNghiep.Model
     using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class semester : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace DoAnTotNghiep.Model
         {
             this.classes = new HashSet<@class>();
         }
-    
+
         public int id { get; set; }
         private Nullable<System.DateTime> _updatedAt;
         private Nullable<int> _updatedBy;

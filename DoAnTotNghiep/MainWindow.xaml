@@ -20,8 +20,6 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Icon="/Images/favicon.ico"
-        BorderBrush="#bababa"
-        BorderThickness="1"
         Name="mainWindow"
         
         DataContext="{StaticResource MainVM}"

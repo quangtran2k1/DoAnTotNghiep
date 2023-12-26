@@ -23,10 +23,8 @@ namespace DoAnTotNghiep.Model
         public byte status { get; set; }
         public int studentId { get; set; }
         public int classId { get; set; }
-        public int teacherId { get; set; }
     
         public virtual @class @class { get; set; }
         public virtual student student { get; set; }
-        public virtual teacher teacher { get; set; }
     }
 }

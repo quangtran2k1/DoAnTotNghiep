@@ -20,6 +20,7 @@ namespace DoAnTotNghiep.ViewModel
         private string _Password;
         public string Password { get => _Password; set { _Password = value; OnPropertyChanged(); } }
         public ICommand LoginCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
 
         public LoginViewModel()
@@ -30,6 +31,7 @@ namespace DoAnTotNghiep.ViewModel
             Password = "";
             LoginCommand = new RelayCommand<Window>((p) => { return true; }, (p) => { Login(p); });
             PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
+            LogoutCommand = new RelayCommand<Window>((p) => { return true; }, (p) => { Logout(); });
 
         }
 
@@ -38,12 +40,13 @@ namespace DoAnTotNghiep.ViewModel
             if (p == null) return;
 
             string passEnCode = XString.MD5Hash(XString.Base64Encode(Password));
-            var user = DataProvider.Ins.DB.users.Where(u => u.username == UserName && u.password == passEnCode).FirstOrDefault();
+            var user = DataProvider.Ins.DB.users.Where(u => u.username == UserName && u.password == passEnCode && u.status == 1).FirstOrDefault();
             if (user != null)
             {
                 CurrentUser.UserID = user.id;
+                CurrentUser.UserRole = user.role.id;
 
-                if (user.roles.First().role1 == "Admin")
+                if (user.role.role1 == "Admin")
                 {
                     IsAdminLogin = true;
                     p.Close();
@@ -60,10 +63,23 @@ namespace DoAnTotNghiep.ViewModel
                 MessageBox.Show("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại!");
             }
         }
+
+        void Logout()
+        {
+        }
     }
 
     public static class CurrentUser
     {
-        public static int UserID { get; set; }
+        private static int _UserID;
+        public static int UserID { get => _UserID; set { _UserID = value; } }
+        private static int _UserRole;
+        public static int UserRole { get => _UserRole; set { _UserRole = value; } }
+
+        public static void ResetUser()
+        {
+            _UserID = 0;
+            _UserRole = 0;
+        }
     }
 }
