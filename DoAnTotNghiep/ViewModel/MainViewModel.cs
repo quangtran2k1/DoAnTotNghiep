@@ -51,6 +51,12 @@ namespace DoAnTotNghiep.ViewModel
                     studentMainWindow.Show();
                     p.Close();
                 }
+                else if (loginVM.IsTeacherLogin)
+                {
+                    TeacherMainWindow teacherMainWindow = new TeacherMainWindow();
+                    teacherMainWindow.Show();
+                    p.Close();
+                }
                 else p.Close();
             });
 

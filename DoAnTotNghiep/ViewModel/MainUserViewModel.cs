@@ -155,7 +155,6 @@ namespace DoAnTotNghiep.ViewModel
                 new Sex { sexID = 0, sexName = "Khác" }
             };
 
-            ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.students_classes.FirstOrDefault().student.userId == CurrentUser.UserID));
             if(ClassList == null || ClassList.Count() == 0)
             {
                 IsEmpty = "Visible";
@@ -181,16 +180,18 @@ namespace DoAnTotNghiep.ViewModel
                 Address = studentProp.address;
                 DateOfBirth = studentProp.dateOfBirth;
                 Sex = SexList.Where(x => x.sexID == studentProp.sex).FirstOrDefault().sexName;
+                ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.students_classes.FirstOrDefault().student.userId == CurrentUser.UserID));
             }
             else if (CurrentUser.UserRole == 4)
             {
                 UserAvatar = appDirectory + teacherProp.avatar;
                 Name = teacherProp.name;
                 DateOfBirth = teacherProp.dateOfBirth;
-                Sex = SexList.Where(x => x.sexID == studentProp.sex).FirstOrDefault().sexName;
+                Sex = SexList.Where(x => x.sexID == teacherProp.sex).FirstOrDefault().sexName;
                 CitizenIdentification = teacherProp.citizenIdentification;
                 Phone = teacherProp.phone;
                 Nation = teacherProp.name;
+                ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.teacher_class.FirstOrDefault().teacher.userId == CurrentUser.UserID));
             }
             else
             {
@@ -201,7 +202,17 @@ namespace DoAnTotNghiep.ViewModel
             NewPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { NewPassword = p.Password; });
             ReNewPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { ReNewPassword = p.Password; });
 
-            UploadAvatarCommand = new RelayCommand<object>((p) => { return true; }, (p) => { UploadAvatar(studentProp.user.username); });
+            UploadAvatarCommand = new RelayCommand<object>((p) => { return true; },
+                (p) => {
+                    if (CurrentUser.UserID == 2)
+                    {
+                        UploadAvatar(studentProp.user.username);
+                    }
+                    else
+                    {
+                        UploadAvatar(teacherProp.user.username);
+                    }
+                });
 
             EditInfo = new RelayCommand<object>((p) => { return true; }, (p) => {
                 if(CurrentUser.UserRole == 2)
@@ -215,8 +226,6 @@ namespace DoAnTotNghiep.ViewModel
                 }
             });
 
-            if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == studentProp.sex);
-            if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == teacherProp.sex);
 
             EditPassWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
                 EditPassWindow editPassWindow = new EditPassWindow();
@@ -241,6 +250,7 @@ namespace DoAnTotNghiep.ViewModel
                 (p) => {
                     if (CurrentUser.UserRole == 2)
                     {
+                        if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == studentProp.sex);
                         if (string.IsNullOrEmpty(AddressEdit)) AddressEdit = studentProp.address;
                         if (string.IsNullOrEmpty(UserAvatarEdit)) UserAvatarEdit = studentProp.avatar;
                         studentProp.address = AddressEdit;
@@ -259,6 +269,7 @@ namespace DoAnTotNghiep.ViewModel
                         UserAvatarEdit = "";
                     }else if (CurrentUser.UserRole == 4)
                     {
+                        if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == teacherProp.sex);
                         if (string.IsNullOrEmpty(CitizenIdentificationEdit)) CitizenIdentificationEdit = teacherProp.citizenIdentification;
                         if (string.IsNullOrEmpty(PhoneEdit)) PhoneEdit = teacherProp.phone;
                         if (string.IsNullOrEmpty(NationEdit)) NationEdit = teacherProp.nation;
@@ -300,7 +311,7 @@ namespace DoAnTotNghiep.ViewModel
                     appDirectory = appDirectory.Replace("\\bin\\Debug", "");
 
                     // Tạo đường dẫn đến thư mục Images/User nằm ngoài thư mục bin/Debug
-                    string destinationFolder = Path.Combine(appDirectory, "Images/User");
+                    string destinationFolder = Path.Combine(appDirectory, "Images\\User");
 
                     // Tạo đường dẫn đầy đủ đến thư mục đích nằm ngoài thư mục bin/Debug
                     string destinationPath = Path.Combine(destinationFolder, imgName);
@@ -315,7 +326,7 @@ namespace DoAnTotNghiep.ViewModel
 
                         File.Copy(openFileDialog.FileName, destinationPath, true);
 
-                        UserAvatarEdit = destinationPath.Replace(appDirectory + "\\", "/");
+                        UserAvatarEdit = destinationPath.Replace(appDirectory, "");
                     }
                     catch (Exception ex)
                     {

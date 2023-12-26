@@ -169,6 +169,9 @@
     <Compile Include="TeacherEditWindow.xaml.cs">
       <DependentUpon>TeacherEditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TeacherMainWindow.xaml.cs">
+      <DependentUpon>TeacherMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TeacherManagerWindow.xaml.cs">
       <DependentUpon>TeacherManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TeacherEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TeacherMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

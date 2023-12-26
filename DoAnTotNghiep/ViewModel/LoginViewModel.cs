@@ -15,6 +15,7 @@ namespace DoAnTotNghiep.ViewModel
     {
         public bool IsAdminLogin { get; set; }
         public bool IsStudentLogin { get; set; }
+        public bool IsTeacherLogin { get; set; }
         private string _UserName;
         public string UserName { get => _UserName; set { _UserName = value; OnPropertyChanged(); } }
         private string _Password;
@@ -27,6 +28,7 @@ namespace DoAnTotNghiep.ViewModel
         {
             IsAdminLogin = false;
             IsStudentLogin = false;
+            IsTeacherLogin = false;
             UserName = "";
             Password = "";
             LoginCommand = new RelayCommand<Window>((p) => { return true; }, (p) => { Login(p); });
@@ -46,14 +48,19 @@ namespace DoAnTotNghiep.ViewModel
                 CurrentUser.UserID = user.id;
                 CurrentUser.UserRole = user.role.id;
 
-                if (user.role.role1 == "Admin")
+                if (user.role.id == 1)
                 {
                     IsAdminLogin = true;
                     p.Close();
                 }
-                else
+                else if (user.role.id == 2)
                 {
                     IsStudentLogin = true;
+                    p.Close();
+                }
+                else
+                {
+                    IsTeacherLogin = true;
                     p.Close();
                 }
             }
