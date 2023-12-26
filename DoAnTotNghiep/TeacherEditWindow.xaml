@@ -61,7 +61,7 @@
                                 Margin="10"
                                 materialDesign:HintAssist.Hint="Căn cước công dân"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                Text="{Binding citizenIdentificationEdit}"/>
+                                Text="{Binding CitizenIdentificationEdit}"/>
                             <ComboBox
                                 Grid.Column="1"
                                 Margin="10"
@@ -86,13 +86,13 @@
                                 Margin="10"
                                 materialDesign:HintAssist.Hint="Số điện thoại"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                Text="{Binding phoneEdit}"/>
+                                Text="{Binding PhoneEdit}"/>
                             <DatePicker
                                 Grid.Column="1"
                                 Margin="10"
                                 materialDesign:HintAssist.Hint="Ngày sinh"
                                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                                SelectedDate="{Binding dateOfBirth}"/>
+                                SelectedDate="{Binding DateOfBirthEdit}"/>
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
@@ -104,7 +104,7 @@
                                 Margin="10"
                                 materialDesign:HintAssist.Hint="Quốc tịch"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                Text="{Binding nationEdit}"/>
+                                Text="{Binding NationEdit}"/>
                             <Border
                                 Grid.Column="1"
                                 Margin="10"
@@ -116,7 +116,7 @@
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         Margin="5 0"
-                                        Text="{Binding UserAvatar}">
+                                        Text="{Binding UserAvatarEdit}">
                                     </TextBlock>
                                     <Button 
                                         DockPanel.Dock="Right"

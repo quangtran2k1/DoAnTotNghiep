@@ -1,4 +1,5 @@
-﻿using DoAnTotNghiep.Model;
+﻿using DoAnTotNghiep.Library;
+using DoAnTotNghiep.Model;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -6,8 +7,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -15,6 +18,12 @@ namespace DoAnTotNghiep.ViewModel
 {
     class MainUserViewModel : BaseViewModel
     {
+        //ClassList
+        private ObservableCollection<@class> _ClassList;
+        public ObservableCollection<@class> ClassList { get => _ClassList; set { _ClassList = value; OnPropertyChanged(); } }
+        //ClassList
+
+
         //ImgPath
         private string _selectedImagePath;
         public string SelectedImagePath  { get => _selectedImagePath; set { _selectedImagePath = value; OnPropertyChanged(); } }
@@ -33,6 +42,60 @@ namespace DoAnTotNghiep.ViewModel
         private string _Name;
         public string Name { get => _Name; set { _Name = value; OnPropertyChanged(); } }
         //Name
+
+
+        //CitizenIdentification
+        private string _CitizenIdentificationEdit;
+        public string CitizenIdentificationEdit 
+        { 
+            get => _CitizenIdentificationEdit; 
+            set 
+            {
+                if (Regex.IsMatch(value, "^[0-9]*$"))
+                {
+                    _CitizenIdentificationEdit = value;
+                    OnPropertyChanged();
+                }
+            } 
+        }
+        private string _CitizenIdentification;
+        public string CitizenIdentification { get => _CitizenIdentification; set { _CitizenIdentification = value; OnPropertyChanged(); } }
+        //CitizenIdentification
+
+
+        //Phone
+        private string _PhoneEdit;
+        public string PhoneEdit 
+        {
+            get => _PhoneEdit; 
+            set
+            {
+                if (Regex.IsMatch(value, "^[0-9]*$"))
+                {
+                    _PhoneEdit = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _Phone;
+        public string Phone { get => _Phone; set { _Phone = value; OnPropertyChanged(); } }
+        //Phone
+
+
+        //Nation
+        private string _NationEdit;
+        public string NationEdit { get => _NationEdit; set { _NationEdit = value; OnPropertyChanged(); } }
+        private string _Nation;
+        public string Nation { get => _Nation; set { _Nation = value; OnPropertyChanged(); } }
+        //Nation
+
+
+        //Emty
+        private string _IsList;
+        public string IsList { get => _IsList; set { _IsList = value; OnPropertyChanged(); } }
+        private string _IsEmpty;
+        public string IsEmpty { get => _IsEmpty; set { _IsEmpty = value; OnPropertyChanged(); } }
+        //Emty
 
 
         //Address
@@ -63,9 +126,24 @@ namespace DoAnTotNghiep.ViewModel
         //Sex
 
 
+        //Password
+        private string _OldPassword;
+        public string OldPassword { get => _OldPassword; set { _OldPassword = value; OnPropertyChanged(); } }
+        public ICommand OldPasswordChangedCommand { get; set; }
+        private string _NewPassword;
+        public string NewPassword { get => _NewPassword; set { _NewPassword = value; OnPropertyChanged(); } }
+        public ICommand NewPasswordChangedCommand { get; set; }
+        private string _ReNewPassword;
+        public string ReNewPassword { get => _ReNewPassword; set { _ReNewPassword = value; OnPropertyChanged(); } }
+        public ICommand ReNewPasswordChangedCommand { get; set; }
+        //Password
+
+
         public ICommand EditInfo { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand UploadAvatarCommand { get; set; }
+        public ICommand EditPassWindow { get; set; }
+        public ICommand SavePassCommand { get; set; }
 
 
         public MainUserViewModel()
@@ -74,15 +152,31 @@ namespace DoAnTotNghiep.ViewModel
             {
                 new Sex { sexID = 1, sexName = "Nam" },
                 new Sex { sexID = 2, sexName = "Nữ" },
-                new Sex { sexID = 3, sexName = "Khác" }
+                new Sex { sexID = 0, sexName = "Khác" }
             };
 
+            ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.students_classes.FirstOrDefault().student.userId == CurrentUser.UserID));
+            if(ClassList == null || ClassList.Count() == 0)
+            {
+                IsEmpty = "Visible";
+                IsList = "Collapsed";
+            }
+            else
+            {
+                IsEmpty = "Collapsed";
+                IsList = "Visible";
+            }
 
-            var studentProp = DataProvider.Ins.DB.students.Where(x => x.id == CurrentUser.UserID).SingleOrDefault();
+
+            string appDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            appDirectory = appDirectory.Replace("\\bin\\Debug", "");
+
+            var studentProp = DataProvider.Ins.DB.students.Where(x => x.userId == CurrentUser.UserID).SingleOrDefault();
+            var teacherProp = DataProvider.Ins.DB.teachers.Where(x => x.userId == CurrentUser.UserID).SingleOrDefault();
 
             if (CurrentUser.UserRole == 2)
             {
-                UserAvatar = studentProp.avatar;
+                UserAvatar = appDirectory + studentProp.avatar;
                 Name = studentProp.name;
                 Address = studentProp.address;
                 DateOfBirth = studentProp.dateOfBirth;
@@ -90,17 +184,24 @@ namespace DoAnTotNghiep.ViewModel
             }
             else if (CurrentUser.UserRole == 4)
             {
-                UserAvatar = DataProvider.Ins.DB.teachers.Where(x => x.id == CurrentUser.UserID).FirstOrDefault().avatar;
+                UserAvatar = appDirectory + teacherProp.avatar;
+                Name = teacherProp.name;
+                DateOfBirth = teacherProp.dateOfBirth;
+                Sex = SexList.Where(x => x.sexID == studentProp.sex).FirstOrDefault().sexName;
+                CitizenIdentification = teacherProp.citizenIdentification;
+                Phone = teacherProp.phone;
+                Nation = teacherProp.name;
             }
             else
             {
                 UserAvatar = "/Images/User/default-avatar-image.png";
             }
 
-            //Upload Img
-            UploadAvatarCommand = new RelayCommand<object>((p) => { return true; }, (p) => { UploadAvatar(); });
-            //Upload Img
+            OldPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { OldPassword = p.Password; });
+            NewPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { NewPassword = p.Password; });
+            ReNewPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { ReNewPassword = p.Password; });
 
+            UploadAvatarCommand = new RelayCommand<object>((p) => { return true; }, (p) => { UploadAvatar(studentProp.user.username); });
 
             EditInfo = new RelayCommand<object>((p) => { return true; }, (p) => {
                 if(CurrentUser.UserRole == 2)
@@ -114,67 +215,121 @@ namespace DoAnTotNghiep.ViewModel
                 }
             });
 
-            if (string.IsNullOrEmpty(AddressEdit)) AddressEdit = studentProp.address;
-            if (string.IsNullOrEmpty(UserAvatarEdit)) UserAvatarEdit = studentProp.avatar;
             if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == studentProp.sex);
+            if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == teacherProp.sex);
+
+            EditPassWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
+                EditPassWindow editPassWindow = new EditPassWindow();
+                editPassWindow.ShowDialog();
+            });
+
+            SavePassCommand = new RelayCommand<object>((p) => { return true; },
+                (p) => {
+                    if (string.IsNullOrEmpty(OldPassword)) MessageBox.Show("Vui lòng nhập mật khẩu cũ!");
+                    if (string.IsNullOrEmpty(NewPassword)) MessageBox.Show("Vui lòng nhập mật khẩu mới!");
+                    if (NewPassword != ReNewPassword) MessageBox.Show("Mật khẩu mới không khớp. Vui lòng nhập lại!");
+                    else
+                    {
+                        var userProp = DataProvider.Ins.DB.users.Where(x => x.id == CurrentUser.UserID).SingleOrDefault();
+                        userProp.password = XString.MD5Hash(XString.Base64Encode(NewPassword));
+                        DataProvider.Ins.DB.SaveChanges();
+                        MessageBox.Show("Lưu thành công!");
+                    }
+                });
 
             SaveCommand = new RelayCommand<object>((p) => { return true;  }, 
                 (p) => {
-                    studentProp.address = AddressEdit;
-                    studentProp.dateOfBirth = DateOfBirthEdit;
-                    studentProp.sex = SelectedSex.sexID;
-                    studentProp.avatar = UserAvatarEdit;
-                    studentProp.updatedAt = DateTime.Now;
-                    studentProp.updatedBy = CurrentUser.UserID;
-                    DataProvider.Ins.DB.SaveChanges();
+                    if (CurrentUser.UserRole == 2)
+                    {
+                        if (string.IsNullOrEmpty(AddressEdit)) AddressEdit = studentProp.address;
+                        if (string.IsNullOrEmpty(UserAvatarEdit)) UserAvatarEdit = studentProp.avatar;
+                        studentProp.address = AddressEdit;
+                        studentProp.dateOfBirth = DateOfBirthEdit;
+                        studentProp.sex = SelectedSex.sexID;
+                        studentProp.avatar = UserAvatarEdit;
+                        studentProp.updatedAt = DateTime.Now;
+                        studentProp.updatedBy = CurrentUser.UserID;
+                        DataProvider.Ins.DB.SaveChanges();
 
-                    MessageBox.Show("Lưu thành công!");
+                        MessageBox.Show("Lưu thành công!");
 
-                    AddressEdit = "";
-                    DateOfBirthEdit = DateTime.Now;
-                    SelectedSex = null;
-                    UserAvatarEdit = "";
+                        AddressEdit = "";
+                        DateOfBirthEdit = DateTime.Now;
+                        SelectedSex = null;
+                        UserAvatarEdit = "";
+                    }else if (CurrentUser.UserRole == 4)
+                    {
+                        if (string.IsNullOrEmpty(CitizenIdentificationEdit)) CitizenIdentificationEdit = teacherProp.citizenIdentification;
+                        if (string.IsNullOrEmpty(PhoneEdit)) PhoneEdit = teacherProp.phone;
+                        if (string.IsNullOrEmpty(NationEdit)) NationEdit = teacherProp.nation;
+                        if (string.IsNullOrEmpty(UserAvatarEdit)) UserAvatarEdit = teacherProp.avatar;
+                        teacherProp.citizenIdentification = CitizenIdentificationEdit;
+                        teacherProp.phone = PhoneEdit;
+                        teacherProp.nation = NationEdit;
+                        teacherProp.dateOfBirth = DateOfBirthEdit;
+                        teacherProp.sex = SelectedSex.sexID;
+                        teacherProp.avatar = UserAvatarEdit;
+                        teacherProp.updatedAt = DateTime.Now;
+                        teacherProp.updatedBy = CurrentUser.UserID;
+                        DataProvider.Ins.DB.SaveChanges();
+
+                        MessageBox.Show("Lưu thành công!");
+
+                        CitizenIdentificationEdit = "";
+                        NationEdit = "";
+                        PhoneEdit = "";
+                        DateOfBirthEdit = DateTime.Now;
+                        SelectedSex = null;
+                        UserAvatarEdit = "";
+                    }
             });
 
         }
-        private void UploadAvatar()
+        private void UploadAvatar(string slug)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
-
             if (openFileDialog.ShowDialog() == true)
             {
-                // Lấy đường dẫn của tệp tin ảnh
-                string imagePath = openFileDialog.FileName;
-
-                // Tạo một URI từ đường dẫn
-                Uri imageUri = new Uri(imagePath);
-
-                // Lấy tên tệp tin để sử dụng khi sao chép vào thư mục
-                string fileName = Path.GetFileName(imagePath);
-
-                // Đường dẫn đến thư mục Images/User trong dự án
-                string destinationFolder = "Images/User";
-
-                // Tạo đường dẫn đến thư mục đích
-                string destinationPath = Path.Combine(destinationFolder, fileName);
-
-                try
+                if (openFileDialog.FileName.Length != 0)
                 {
-                    // Sao chép tệp tin ảnh vào thư mục đích
-                    File.Copy(imagePath, destinationPath, true);
+                    string imgName = slug + Path.GetExtension(openFileDialog.FileName);
 
-                    // Gán URI của ảnh cho UserAvatarEdit
-                    UserAvatarEdit = new BitmapImage(imageUri).ToString();
-                }
-                catch (Exception ex)
-                {
-                    // Xử lý nếu có lỗi khi sao chép
-                    MessageBox.Show($"Error uploading avatar: {ex.Message}");
+                    // Lấy đường dẫn thư mục gốc của ứng dụng (thư mục chứa file exe)
+                    string appDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    appDirectory = appDirectory.Replace("\\bin\\Debug", "");
+
+                    // Tạo đường dẫn đến thư mục Images/User nằm ngoài thư mục bin/Debug
+                    string destinationFolder = Path.Combine(appDirectory, "Images/User");
+
+                    // Tạo đường dẫn đầy đủ đến thư mục đích nằm ngoài thư mục bin/Debug
+                    string destinationPath = Path.Combine(destinationFolder, imgName);
+
+                    try
+                    {
+                        // Kiểm tra xem thư mục đích có tồn tại chưa, nếu chưa thì tạo mới
+                        if (!Directory.Exists(destinationFolder))
+                        {
+                            Directory.CreateDirectory(destinationFolder);
+                        }
+
+                        File.Copy(openFileDialog.FileName, destinationPath, true);
+
+                        UserAvatarEdit = destinationPath.Replace(appDirectory + "\\", "/");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Xử lý nếu có lỗi khi sao chép hoặc lưu vào CSDL
+                        MessageBox.Show($"Error uploading avatar: {ex.Message}");
+                    }
+
+
+
+
                 }
             }
-        }
 
+        }
 
     }
 }

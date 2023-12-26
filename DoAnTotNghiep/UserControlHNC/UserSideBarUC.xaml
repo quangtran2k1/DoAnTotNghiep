@@ -34,10 +34,10 @@
                         Background="Transparent"
                         BorderBrush="#af2026"
                         BorderThickness="1"
-                        Command="{Binding ClassesWindowCommand}"
+                        Command="{Binding EditPassWindow}"
                         Margin="4">
                         <materialDesign:PackIcon
-                            Kind="AccountMultiple" 
+                            Kind="Lock" 
                             Foreground="#af2026"/>
                     </Button>
                     <Button

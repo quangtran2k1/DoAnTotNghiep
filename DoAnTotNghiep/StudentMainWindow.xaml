@@ -63,6 +63,97 @@
                         FontSize="30"
                         Margin="10"
                         Text="Danh sách lớp học"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker
+                            Margin="10"
+                            Grid.Column="0"
+                            Width="250"
+                            materialDesign:HintAssist.Hint="Ngày bắt đầu"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                        <DatePicker
+                            Margin="10"
+                            Grid.Column="1"
+                            Width="250"
+                            materialDesign:HintAssist.Hint="Ngày kết thúc"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                        <Button
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            Grid.Column="2"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Width="auto"
+                            ToolTip="Lọc">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Filter"/>
+                                <TextBlock Margin="5 0">Lọc</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <materialDesign:Card
+                        Grid.Row="2"
+                        Margin="20"
+                        Visibility="{Binding IsList}">
+                        <ScrollViewer>
+                            <ListBox ItemsSource="{Binding ClassList}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Card Width="600">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Grid Grid.Row="0" Margin="5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" FontSize="25" Text="{Binding class1}"/>
+                                                    <Button Grid.Column="1">
+                                                        <materialDesign:PackIcon Kind="CallMade"/>
+                                                    </Button>
+                                                </Grid>
+                                                <WrapPanel Grid.Row="1" Margin="5">
+                                                    <TextBlock FontSize="15" Text="Khối: "/>
+                                                    <TextBlock FontSize="15" Text="{Binding semester.block}"/>
+                                                </WrapPanel>
+                                                <WrapPanel Grid.Row="2" Margin="5">
+                                                    <TextBlock FontSize="15" Text="Kỳ: "/>
+                                                    <TextBlock FontSize="15" Text="{Binding semester.startSemester}"/>
+                                                    <TextBlock FontSize="15" Text=" - "/>
+                                                    <TextBlock FontSize="15" Text="{Binding semester.endSemester}"/>
+                                                </WrapPanel>
+                                                <WrapPanel Grid.Row="3" Margin="5">
+                                                    <TextBlock FontSize="20" Text="Thời gian học: "/>
+                                                    <TextBlock FontSize="20" Text="{Binding startTime}"/>
+                                                    <TextBlock FontSize="20" Text=" - "/>
+                                                    <TextBlock FontSize="20" Text="{Binding endTime}"/>
+                                                </WrapPanel>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </materialDesign:Card>
+                    <materialDesign:Card 
+                        Grid.Row="3"
+                        Margin="20"
+                        Visibility="{Binding IsEmpty}">
+                        <TextBlock 
+                            FontSize="50"
+                            Foreground="#bababa"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="Chưa có lớp học"/>
+                    </materialDesign:Card>
                 </Grid>
                 
             </materialDesign:Card>

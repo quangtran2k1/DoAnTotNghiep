@@ -24,6 +24,7 @@
         BorderThickness="1" 
         x:Name="window"
         
+        DataContext="{StaticResource MainUserVM}"
         Title="Đổi mật khẩu" Height="350" Width="600">
     <Grid>
         <Grid.RowDefinitions>
@@ -48,19 +49,37 @@
                         Margin="10"
                         x:Name="OldPassword"
                         materialDesign:HintAssist.Hint="Nhập mật khẩu cũ"
-                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PasswordChanged">
+                                <i:InvokeCommandAction Command="{Binding OldPasswordChangedCommand}" CommandParameter="{Binding ElementName=OldPassword}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </PasswordBox>
                     <PasswordBox
                         Grid.Row="1"
                         Margin="10"
                         x:Name="NewPassword"
                         materialDesign:HintAssist.Hint="Nhập mật khẩu mới"
-                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PasswordChanged">
+                                <i:InvokeCommandAction Command="{Binding NewPasswordChangedCommand}" CommandParameter="{Binding ElementName=NewPassword}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </PasswordBox>
                     <PasswordBox
                         Grid.Row="2"
                         Margin="10"
-                        x:Name="ReturnNewPassword"
+                        x:Name="ReNewPassword"
                         materialDesign:HintAssist.Hint="Nhập lại mật khẩu mới"
-                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PasswordChanged">
+                                <i:InvokeCommandAction Command="{Binding ReNewPasswordChangedCommand}" CommandParameter="{Binding ElementName=ReNewPassword}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </PasswordBox>
                     <Button
                         Grid.Row="3"
                         HorizontalAlignment="Right"
@@ -68,7 +87,7 @@
                         Background="#4cc459"
                         BorderBrush="#4cc459"
                         Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                        Command="{Binding AddCommand}"
+                        Command="{Binding SavePassCommand}"
                         Width="100"
                         ToolTip="Lưu">
                         <WrapPanel>

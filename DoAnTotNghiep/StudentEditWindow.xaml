@@ -84,33 +84,32 @@
                                 materialDesign:HintAssist.Hint="Địa chỉ"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                 Text="{Binding AddressEdit}"/>
-                            <Border
-                                Grid.Column="1"
-                                Margin="10"
-                                BorderBrush="#878787"
-                                BorderThickness="0,0,0,1">
-                                <DockPanel
-                                    VerticalAlignment="Center">
-                                    <TextBlock 
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Margin="5 0"
-                                        Text="{Binding UserAvatarEdit}">
-                                    </TextBlock>
-                                    <Button 
-                                        DockPanel.Dock="Right"
-                                        HorizontalAlignment="Right"
-                                        BorderBrush="#878787"
-                                        BorderThickness="1"
-                                        Background="White"
-                                        Width="50"
-                                        Command="{Binding UploadAvatarCommand}">
-                                        <materialDesign:PackIcon 
-                                            Foreground="#878787"
-                                            Kind="Paperclip" />
-                                    </Button>
-                                </DockPanel>
+                            <Border Grid.Column="1" Margin="10" BorderBrush="#878787" BorderThickness="0,0,0,1">
+                                <Grid>
+                                    <DockPanel VerticalAlignment="Center">
+                                        <TextBlock 
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Margin="5 0"
+                                            Text="{Binding UserAvatarEdit}">
+                                        </TextBlock>
+                                        <Button 
+                                            Grid.ZIndex="99"
+                                            DockPanel.Dock="Right"
+                                            HorizontalAlignment="Right"
+                                            BorderBrush="#878787"
+                                            BorderThickness="1"
+                                            Background="White"
+                                            Width="50"
+                                            Command="{Binding UploadAvatarCommand}">
+                                            <materialDesign:PackIcon 
+                                                Foreground="#878787"
+                                                Kind="Paperclip" />
+                                        </Button>
+                                    </DockPanel>
+                                </Grid>
                             </Border>
+
                         </Grid>
                     </Grid>
                 </materialDesign:Card>
