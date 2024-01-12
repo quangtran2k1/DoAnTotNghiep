@@ -12,18 +12,17 @@ namespace DoAnTotNghiep.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class role
+    public partial class bonu
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public role()
-        {
-            this.users = new HashSet<user>();
-        }
-    
         public int id { get; set; }
-        public string role1 { get; set; }
+        public System.DateTime createdAt { get; set; }
+        public Nullable<System.DateTime> updatedAt { get; set; }
+        public int createdBy { get; set; }
+        public Nullable<int> updatedBy { get; set; }
+        public string reason { get; set; }
+        public int bonus { get; set; }
+        public int teacherId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user> users { get; set; }
+        public virtual teacher teacher { get; set; }
     }
 }

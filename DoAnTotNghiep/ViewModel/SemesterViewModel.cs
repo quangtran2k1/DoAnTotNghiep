@@ -120,6 +120,9 @@ namespace DoAnTotNghiep.ViewModel
 
             List = new ObservableCollection<semester>(DataProvider.Ins.DB.semesters);
 
+            ClassesWindow classesWindow = new ClassesWindow();
+            var classVM = classesWindow.DataContext as ClassViewModel;
+
             AddCommand = new RelayCommand<object>(
                 (p) =>
                 {
@@ -152,6 +155,7 @@ namespace DoAnTotNghiep.ViewModel
 
                     MessageBox.Show("Thêm thành công!");
 
+                    classVM.LoadData();
                     Block = "";
                     StartSemester = DateTime.Now;
                     EndSemester = DateTime.Now;
@@ -179,6 +183,7 @@ namespace DoAnTotNghiep.ViewModel
 
                     MessageBox.Show("Sửa thành công!");
 
+                    classVM.LoadData();
                     Block = "";
                     StartSemester = DateTime.Now;
                     EndSemester = DateTime.Now;
@@ -207,6 +212,7 @@ namespace DoAnTotNghiep.ViewModel
                         MessageBox.Show("Xóa thành công!");
                     }
 
+                    classVM.LoadData();
                     Block = "";
                     StartSemester = DateTime.Now;
                     EndSemester = DateTime.Now;

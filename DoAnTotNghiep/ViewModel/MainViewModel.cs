@@ -28,6 +28,7 @@ namespace DoAnTotNghiep.ViewModel
         public ICommand EditPassWindow { get; set; }
         public ICommand StudentWindowCommand { get; set; }
         public ICommand TeacherWindowCommand { get; set; }
+        public ICommand ParentWindowCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
 
         public MainViewModel()
@@ -88,6 +89,11 @@ namespace DoAnTotNghiep.ViewModel
             TeacherWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
                 TeacherManagerWindow teacherManagerWindow = new TeacherManagerWindow();
                 teacherManagerWindow.ShowDialog();
+            });
+
+            ParentWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                ParentManagerWindow parentManagerWindow = new ParentManagerWindow();
+                parentManagerWindow.ShowDialog();
             });
 
             studentCount = DataProvider.Ins.DB.users.Where(u => u.role.id == 2 && u.status == 1).Count();

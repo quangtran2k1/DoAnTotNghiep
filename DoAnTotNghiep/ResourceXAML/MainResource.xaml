@@ -7,6 +7,8 @@
     <viewmodel:UserAccountViewModel x:Key="UserAccountVM"></viewmodel:UserAccountViewModel>
     <viewmodel:SemesterViewModel x:Key="SemesterVM"></viewmodel:SemesterViewModel>
     <viewmodel:StudentViewModel x:Key="StudentVM"></viewmodel:StudentViewModel>
+    <viewmodel:ParentViewModel x:Key="ParentVM"></viewmodel:ParentViewModel>
     <viewmodel:TeacherViewModel x:Key="TeacherVM"></viewmodel:TeacherViewModel>
     <viewmodel:MainUserViewModel x:Key="MainUserVM"></viewmodel:MainUserViewModel>
+    <viewmodel:PracticeViewModel x:Key="PracticeVM"></viewmodel:PracticeViewModel>
 </ResourceDictionary>

@@ -14,12 +14,6 @@ namespace DoAnTotNghiep.Model
     
     public partial class teacher_class
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public teacher_class()
-        {
-            this.exercises = new HashSet<exercise>();
-        }
-    
         public int id { get; set; }
         public System.DateTime createdAt { get; set; }
         public Nullable<System.DateTime> updateAt { get; set; }
@@ -31,8 +25,6 @@ namespace DoAnTotNghiep.Model
         public int classesId { get; set; }
     
         public virtual @class @class { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<exercise> exercises { get; set; }
         public virtual teacher teacher { get; set; }
     }
 }

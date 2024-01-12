@@ -15,18 +15,13 @@ using System.Windows.Shapes;
 namespace DoAnTotNghiep
 {
     /// <summary>
-    /// Interaction logic for DetailWindow.xaml
+    /// Interaction logic for ParentManagerWindow.xaml
     /// </summary>
-    public partial class DetailWindow : Window
+    public partial class ParentManagerWindow : Window
     {
-        public DetailWindow()
+        public ParentManagerWindow()
         {
             InitializeComponent();
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

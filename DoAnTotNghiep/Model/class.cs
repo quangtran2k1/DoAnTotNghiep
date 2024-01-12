@@ -9,11 +9,10 @@
 
 namespace DoAnTotNghiep.Model
 {
-    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class @class : BaseViewModel
+    public partial class @class
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public @class()
@@ -21,26 +20,18 @@ namespace DoAnTotNghiep.Model
             this.students_classes = new HashSet<students_classes>();
             this.teacher_class = new HashSet<teacher_class>();
         }
-
+    
         public int id { get; set; }
         public System.DateTime createdAt { get; set; }
-        private Nullable<System.DateTime> _updatedAt;
-        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
+        public Nullable<System.DateTime> updatedAt { get; set; }
         public int createdBy { get; set; }
-        private Nullable<int> _updatedBy;
-        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
-        private string _class1;
-        public string class1 { get => _class1; set { _class1 = value; OnPropertyChanged(); } }
-        private System.TimeSpan _startTime;
-        public System.TimeSpan startTime { get => _startTime; set { _startTime = value; OnPropertyChanged(); } }
-
-        private System.TimeSpan _endTime;
-        public System.TimeSpan endTime { get => _endTime; set { _endTime = value; OnPropertyChanged(); } }
-        private byte _status;
-        public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
-        private int _semesterId;
-        public int semesterId { get => _semesterId; set { _semesterId = value; OnPropertyChanged(); } }
-
+        public Nullable<int> updatedBy { get; set; }
+        public string class1 { get; set; }
+        public System.TimeSpan startTime { get; set; }
+        public System.TimeSpan endTime { get; set; }
+        public byte status { get; set; }
+        public int semesterId { get; set; }
+    
         public virtual semester semester { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<students_classes> students_classes { get; set; }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b6680a5b731d45258564daf2aa0e93e4" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="HanoiConnectionModel1.base_salary" Width="1.5" PointX="8.25" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.bonu" Width="1.5" PointX="7.5" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.class" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.discipline" Width="1.5" PointX="7.5" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.lesson_count" Width="1.5" PointX="7.5" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.parent" Width="1.5" PointX="7.5" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.role" Width="1.5" PointX="0.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.salary" Width="1.5" PointX="10.5" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.semester" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.student" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.students_classes" Width="1.5" PointX="10.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.teacher_class" Width="1.5" PointX="10.5" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.teacher" Width="1.5" PointX="5.25" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HanoiConnectionModel1.user" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_salary_base_salary" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_bonus_teachers" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_classes_semester" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_students_classes_classes" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_teacher_class_classes" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_discipline_teachers" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_lesson_count_teachers" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_parents_students" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_parents_users" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_users_role" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_salary_teachers" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_students_classes_students" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_students_users" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_teacher_class_teachers" ManuallyRouted="false" />
+        <AssociationConnector Association="HanoiConnectionModel1.FK_teachers_users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

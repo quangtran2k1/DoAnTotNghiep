@@ -64,8 +64,10 @@ namespace DoAnTotNghiep.ViewModel
         public TeacherViewModel()
         {
             List = new ObservableCollection<teacher>(DataProvider.Ins.DB.teachers);
+            LoadData();
 
-            ListUserAccount = new ObservableCollection<user>(DataProvider.Ins.DB.users.Where(x => x.role.id == 4));
+            ClassesWindow classesWindow = new ClassesWindow();
+            var classVM = classesWindow.DataContext as ClassViewModel;
 
             AddCommand = new RelayCommand<object>(
                 (p) =>
@@ -104,6 +106,7 @@ namespace DoAnTotNghiep.ViewModel
 
                     MessageBox.Show("Thêm thành công!");
 
+                    classVM.LoadData();
                     Name = "";
                     SelectedUserAccount = null;
                 });
@@ -114,7 +117,7 @@ namespace DoAnTotNghiep.ViewModel
                     if (string.IsNullOrEmpty(Name) || SelectedUserAccount == null || SelectedItem == null)
                         return false;
 
-                    var displayList = DataProvider.Ins.DB.teachers.Where(x => x.id == SelectedItem.id && x.userId == SelectedUserAccount.id);
+                    var displayList = DataProvider.Ins.DB.teachers.Where(x => x.id != SelectedItem.id && x.userId == SelectedUserAccount.id);
                     if (displayList.Count() != 0)
                         return false;
 
@@ -131,9 +134,15 @@ namespace DoAnTotNghiep.ViewModel
 
                     MessageBox.Show("Sửa thành công!");
 
+                    classVM.LoadData();
                     Name = "";
                     SelectedUserAccount = null;
                 });
+        }
+
+        public void LoadData()
+        {
+            ListUserAccount = new ObservableCollection<user>(DataProvider.Ins.DB.users.Where(x => x.role.id == 4));
         }
     }
 }

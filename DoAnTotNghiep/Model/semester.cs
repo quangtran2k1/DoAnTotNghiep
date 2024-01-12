@@ -9,34 +9,27 @@
 
 namespace DoAnTotNghiep.Model
 {
-    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
-
-    public partial class semester : BaseViewModel
+    
+    public partial class semester
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public semester()
         {
             this.classes = new HashSet<@class>();
         }
-
+    
         public int id { get; set; }
-        private Nullable<System.DateTime> _updatedAt;
-        private Nullable<int> _updatedBy;
-        private string _block;
-        private System.DateTime _startSemester;
-        private System.DateTime _endSemester;
-        private byte _status;
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
+        public Nullable<System.DateTime> updatedAt { get; set; }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
-        public string block { get => _block; set { _block = value; OnPropertyChanged(); } }
-        public System.DateTime startSemester { get => _startSemester; set { _startSemester = value; OnPropertyChanged(); } }
-        public System.DateTime endSemester { get => _endSemester; set { _endSemester = value; OnPropertyChanged(); } }
-        public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
-
+        public Nullable<int> updatedBy { get; set; }
+        public string block { get; set; }
+        public System.DateTime startSemester { get; set; }
+        public System.DateTime endSemester { get; set; }
+        public byte status { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<@class> classes { get; set; }
     }

@@ -12,18 +12,22 @@ namespace DoAnTotNghiep.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class role
+    public partial class base_salary
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public role()
+        public base_salary()
         {
-            this.users = new HashSet<user>();
+            this.salaries = new HashSet<salary>();
         }
     
         public int id { get; set; }
-        public string role1 { get; set; }
+        public System.DateTime createdAt { get; set; }
+        public Nullable<System.DateTime> updatedAt { get; set; }
+        public int createdBy { get; set; }
+        public Nullable<int> updatedBy { get; set; }
+        public int currentSalary { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user> users { get; set; }
+        public virtual ICollection<salary> salaries { get; set; }
     }
 }

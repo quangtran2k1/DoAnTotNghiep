@@ -256,10 +256,7 @@ namespace DoAnTotNghiep.ViewModel
 
             List = new ObservableCollection<@class>(DataProvider.Ins.DB.classes);
 
-            TeacherSearchResult = new ObservableCollection<teacher>(DataProvider.Ins.DB.teachers);
-            StudentSearchResult = new ObservableCollection<student>(DataProvider.Ins.DB.students);
-
-            ListSemester = new ObservableCollection<semester>(DataProvider.Ins.DB.semesters);
+            LoadData();
 
             AddCommand = new RelayCommand<object>(
                 (p) =>
@@ -379,7 +376,7 @@ namespace DoAnTotNghiep.ViewModel
                     if (SelectedTeacher == null)
                         return false;
 
-                    var check = DataProvider.Ins.DB.teachers.Where(x => x.id == SelectedTeacher.id && x.teacher_class.Count() != 0);
+                    var check = DataProvider.Ins.DB.teacher_class.Where(x => x.teacherId == SelectedTeacher.id && x.classesId == SelectedItem.id);
                     if (check.Count() != 0)
                         return false;
 
@@ -438,7 +435,7 @@ namespace DoAnTotNghiep.ViewModel
                     if (SelectedStudent == null)
                         return false;
 
-                    var check = DataProvider.Ins.DB.students.Where(x => x.id == SelectedStudent.id && x.students_classes.Count() != 0);
+                    var check = DataProvider.Ins.DB.students_classes.Where(x => x.studentId == SelectedStudent.id && x.classId == SelectedItem.id);
                     if (check.Count() != 0)
                         return false;
 
@@ -493,13 +490,18 @@ namespace DoAnTotNghiep.ViewModel
                 });
         }
 
-        private void LoadData()
+        public void LoadData()
         {
             if (SelectedItem != null)
             {
                 TeacherList = new ObservableCollection<teacher_class>(DataProvider.Ins.DB.teacher_class.Where(x => x.classesId == SelectedItem.id));
                 StudentList = new ObservableCollection<students_classes>(DataProvider.Ins.DB.students_classes.Where(x => x.classId == SelectedItem.id));
             }
+
+            TeacherSearchResult = new ObservableCollection<teacher>(DataProvider.Ins.DB.teachers);
+            StudentSearchResult = new ObservableCollection<student>(DataProvider.Ins.DB.students);
+
+            ListSemester = new ObservableCollection<semester>(DataProvider.Ins.DB.semesters);
         }
 
     }

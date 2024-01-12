@@ -133,6 +133,13 @@ namespace DoAnTotNghiep.ViewModel
                 new Status { StatusID = 2, StatusName = "Ngừng hoạt động" }
             };
 
+            ParentManagerWindow parentManagerWindow = new ParentManagerWindow();
+            var parentVM = parentManagerWindow.DataContext as ParentViewModel;
+            TeacherManagerWindow teacherManagerWindow = new TeacherManagerWindow();
+            var teacherVM = teacherManagerWindow.DataContext as TeacherViewModel;
+            StudentManagerWindow studentManagerWindow = new StudentManagerWindow();
+            var studentVM = studentManagerWindow.DataContext as StudentViewModel;
+
             List = new ObservableCollection<user>(DataProvider.Ins.DB.users);
             ListRole = new ObservableCollection<role>(DataProvider.Ins.DB.roles);
 
@@ -171,6 +178,9 @@ namespace DoAnTotNghiep.ViewModel
 
                     MessageBox.Show("Thêm thành công!");
 
+                    parentVM.LoadData();
+                    teacherVM.LoadData();
+                    studentVM.LoadData();
                     UserName = "";
                     Email = "";
                     PasswordChangedCommand = new RelayCommand<PasswordBox>((pw) => { return true; }, (pw) => { pw.Clear(); });
@@ -205,6 +215,9 @@ namespace DoAnTotNghiep.ViewModel
 
                     MessageBox.Show("Sửa thành công!");
 
+                    parentVM.LoadData();
+                    teacherVM.LoadData();
+                    studentVM.LoadData();
                     UserName = "";
                     Email = "";
                     PasswordChangedCommand = new RelayCommand<PasswordBox>((pw) => { return true; }, (pw) => { pw.Clear(); });
@@ -241,6 +254,9 @@ namespace DoAnTotNghiep.ViewModel
                         MessageBox.Show("Không thể xóa tài khoản đang đăng nhập!");
                     }
 
+                    parentVM.LoadData();
+                    teacherVM.LoadData();
+                    studentVM.LoadData();
                     UserName = "";
                     Email = "";
                     PasswordChangedCommand = new RelayCommand<PasswordBox>((pw) => { return true; }, (pw) => { pw.Clear(); });

@@ -44,13 +44,13 @@ namespace DoAnTotNghiep.ViewModel
         //Name
 
 
-        //Student
+        //ListUser
         private ObservableCollection<user> _ListUserAccount;
         public ObservableCollection<user> ListUserAccount { get => _ListUserAccount; set { _ListUserAccount = value; OnPropertyChanged(); } }
 
         private user _SelectedUserAccount;
         public user SelectedUserAccount { get => _SelectedUserAccount; set { _SelectedUserAccount = value; OnPropertyChanged(); } }
-        //Student
+        //ListUser
 
 
         //Add Command
@@ -66,8 +66,7 @@ namespace DoAnTotNghiep.ViewModel
         public StudentViewModel()
         {
             List = new ObservableCollection<student>(DataProvider.Ins.DB.students);
-
-            ListUserAccount = new ObservableCollection<user>(DataProvider.Ins.DB.users.Where(x => x.role.id == 2));
+            LoadData();
 
             AddCommand = new RelayCommand<object>(
                 (p) =>
@@ -114,7 +113,7 @@ namespace DoAnTotNghiep.ViewModel
                     if (string.IsNullOrEmpty(Name) || SelectedUserAccount == null || SelectedItem == null)
                         return false;
 
-                    var displayList = DataProvider.Ins.DB.students.Where(x => x.id == SelectedItem.id && x.userId == SelectedUserAccount.id);
+                    var displayList = DataProvider.Ins.DB.students.Where(x => x.id != SelectedItem.id && x.userId == SelectedUserAccount.id);
                     if (displayList.Count() != 0)
                         return false;
 
@@ -134,6 +133,11 @@ namespace DoAnTotNghiep.ViewModel
                     Name = "";
                     SelectedUserAccount = null;
                 });
+        }
+
+        public void LoadData()
+        {
+            ListUserAccount = new ObservableCollection<user>(DataProvider.Ins.DB.users.Where(x => x.role.id == 2));
         }
     }
 }

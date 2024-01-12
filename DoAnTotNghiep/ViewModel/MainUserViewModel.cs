@@ -139,11 +139,19 @@ namespace DoAnTotNghiep.ViewModel
         //Password
 
 
+        //Is Teacher
+        private string _IsTeacher = "Visible";
+        public string IsTeacher { get => _IsTeacher; set { _IsTeacher = value; OnPropertyChanged(); } }
+        //Is Teacher
+
+
         public ICommand EditInfo { get; set; }
+        public ICommand Salary { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand UploadAvatarCommand { get; set; }
         public ICommand EditPassWindow { get; set; }
         public ICommand SavePassCommand { get; set; }
+        public ICommand AddPracticeWindow { get; set; }
 
 
         public MainUserViewModel()
@@ -155,18 +163,6 @@ namespace DoAnTotNghiep.ViewModel
                 new Sex { sexID = 0, sexName = "Khác" }
             };
 
-            if(ClassList == null || ClassList.Count() == 0)
-            {
-                IsEmpty = "Visible";
-                IsList = "Collapsed";
-            }
-            else
-            {
-                IsEmpty = "Collapsed";
-                IsList = "Visible";
-            }
-
-
             string appDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             appDirectory = appDirectory.Replace("\\bin\\Debug", "");
 
@@ -175,6 +171,7 @@ namespace DoAnTotNghiep.ViewModel
 
             if (CurrentUser.UserRole == 2)
             {
+                IsTeacher = "Collapsed";
                 UserAvatar = appDirectory + studentProp.avatar;
                 Name = studentProp.name;
                 Address = studentProp.address;
@@ -198,21 +195,26 @@ namespace DoAnTotNghiep.ViewModel
                 UserAvatar = "/Images/User/default-avatar-image.png";
             }
 
+            if (ClassList == null || ClassList.Count() == 0)
+            {
+                IsEmpty = "Visible";
+                IsList = "Collapsed";
+            }
+            else
+            {
+                IsEmpty = "Collapsed";
+                IsList = "Visible";
+            }
+
             OldPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { OldPassword = p.Password; });
             NewPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { NewPassword = p.Password; });
             ReNewPasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { ReNewPassword = p.Password; });
 
-            UploadAvatarCommand = new RelayCommand<object>((p) => { return true; },
-                (p) => {
-                    if (CurrentUser.UserID == 2)
-                    {
-                        UploadAvatar(studentProp.user.username);
-                    }
-                    else
-                    {
-                        UploadAvatar(teacherProp.user.username);
-                    }
-                });
+            var checkUserProp = DataProvider.Ins.DB.users.Where(x => x.id == CurrentUser.UserID).FirstOrDefault();
+
+
+            UploadAvatarCommand = new RelayCommand<object>((p) => { return true; }, (p) => { UploadAvatar(checkUserProp.username); });
+
 
             EditInfo = new RelayCommand<object>((p) => { return true; }, (p) => {
                 if(CurrentUser.UserRole == 2)
@@ -226,10 +228,18 @@ namespace DoAnTotNghiep.ViewModel
                 }
             });
 
+            AddPracticeWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
+                MessageBox.Show("Test");
+            });
 
             EditPassWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
                 EditPassWindow editPassWindow = new EditPassWindow();
                 editPassWindow.ShowDialog();
+            });
+
+            Salary = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+
             });
 
             SavePassCommand = new RelayCommand<object>((p) => { return true; },

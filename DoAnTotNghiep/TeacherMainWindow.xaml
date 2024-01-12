@@ -115,7 +115,17 @@
                                                         <ColumnDefinition></ColumnDefinition>
                                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" FontSize="25" Text="{Binding class1}"/>
+                                                    <Button 
+                                                        Grid.Column="0"
+                                                        Height="auto"
+                                                        Background="Transparent"
+                                                        BorderBrush="Transparent">
+                                                        <TextBlock 
+                                                            HorizontalAlignment="Left"
+                                                            FontSize="25" 
+                                                            Foreground="Black"
+                                                            Text="{Binding class1}"/>
+                                                    </Button>
                                                     <Button Grid.Column="1">
                                                         <materialDesign:PackIcon Kind="CallMade"/>
                                                     </Button>

@@ -62,6 +62,18 @@
                             Kind="File" 
                             Foreground="#af2026"/>
                     </Button>
+                    <Button
+                        Background="Transparent"
+                        BorderBrush="#af2026"
+                        BorderThickness="1"
+                        Visibility="{Binding IsTeacher}"
+                        Command="{Binding Salary}"
+                        ToolTip="Bài tập"
+                        Margin="4">
+                        <materialDesign:PackIcon
+                            Kind="Dollar" 
+                            Foreground="#af2026"/>
+                    </Button>
                 </StackPanel>
 
                 <StackPanel

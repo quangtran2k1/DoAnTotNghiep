@@ -7,9 +7,3 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DoAnTotNghiep.Model
-{
-    public class BasViewModel
-    {
-    }
-}
