@@ -19,9 +19,11 @@ namespace DoAnTotNghiep.Model
         public Nullable<System.DateTime> updatedAt { get; set; }
         public int createdBy { get; set; }
         public Nullable<int> updatedBy { get; set; }
-        public string month { get; set; }
+        public int month { get; set; }
+        public int year { get; set; }
         public int baseSalaryId { get; set; }
         public int teacherId { get; set; }
+        public int total { get; set; }
     
         public virtual base_salary base_salary { get; set; }
         public virtual teacher teacher { get; set; }

@@ -25,11 +25,14 @@ namespace DoAnTotNghiep.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<base_salary> base_salary { get; set; }
+        public virtual DbSet<bonu> bonus { get; set; }
         public virtual DbSet<@class> classes { get; set; }
-        public virtual DbSet<exercise> exercises { get; set; }
-        public virtual DbSet<homework_student> homework_student { get; set; }
+        public virtual DbSet<discipline> disciplines { get; set; }
+        public virtual DbSet<lesson_count> lesson_count { get; set; }
         public virtual DbSet<parent> parents { get; set; }
         public virtual DbSet<role> roles { get; set; }
+        public virtual DbSet<salary> salaries { get; set; }
         public virtual DbSet<semester> semesters { get; set; }
         public virtual DbSet<student> students { get; set; }
         public virtual DbSet<students_classes> students_classes { get; set; }

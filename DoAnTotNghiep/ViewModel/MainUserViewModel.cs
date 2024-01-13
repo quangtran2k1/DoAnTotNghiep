@@ -24,6 +24,27 @@ namespace DoAnTotNghiep.ViewModel
         //ClassList
 
 
+        //ListStudent
+        private ObservableCollection<student> _ListStudent;
+        public ObservableCollection<student> ListStudent { get => _ListStudent; set { _ListStudent = value; OnPropertyChanged(); } }
+
+        private student _SelectedStudent;
+        public student SelectedStudent 
+        { 
+            get => _SelectedStudent; 
+            set 
+            { 
+                _SelectedStudent = value; 
+                OnPropertyChanged();
+                if (SelectedStudent != null)
+                {
+                    LoadData();
+                }
+            } 
+        }
+        //ListStudent
+
+
         //ImgPath
         private string _selectedImagePath;
         public string SelectedImagePath  { get => _selectedImagePath; set { _selectedImagePath = value; OnPropertyChanged(); } }
@@ -140,7 +161,7 @@ namespace DoAnTotNghiep.ViewModel
 
 
         //Is Teacher
-        private string _IsTeacher = "Visible";
+        private string _IsTeacher = "Collapsed";
         public string IsTeacher { get => _IsTeacher; set { _IsTeacher = value; OnPropertyChanged(); } }
         //Is Teacher
 
@@ -151,17 +172,18 @@ namespace DoAnTotNghiep.ViewModel
         public ICommand UploadAvatarCommand { get; set; }
         public ICommand EditPassWindow { get; set; }
         public ICommand SavePassCommand { get; set; }
-        public ICommand AddPracticeWindow { get; set; }
 
 
         public MainUserViewModel()
         {
+            string defaultPath = "/Images/User/default-avatar-image.png";
             SexList = new ObservableCollection<Sex>
             {
                 new Sex { sexID = 1, sexName = "Nam" },
                 new Sex { sexID = 2, sexName = "Nữ" },
                 new Sex { sexID = 0, sexName = "Khác" }
             };
+
 
             string appDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             appDirectory = appDirectory.Replace("\\bin\\Debug", "");
@@ -171,28 +193,37 @@ namespace DoAnTotNghiep.ViewModel
 
             if (CurrentUser.UserRole == 2)
             {
-                IsTeacher = "Collapsed";
-                UserAvatar = appDirectory + studentProp.avatar;
+                LoadAvatar(appDirectory + studentProp.avatar);
                 Name = studentProp.name;
                 Address = studentProp.address;
                 DateOfBirth = studentProp.dateOfBirth;
                 Sex = SexList.Where(x => x.sexID == studentProp.sex).FirstOrDefault().sexName;
-                ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.students_classes.FirstOrDefault().student.userId == CurrentUser.UserID));
+                LoadData();
             }
             else if (CurrentUser.UserRole == 4)
             {
-                UserAvatar = appDirectory + teacherProp.avatar;
+                IsTeacher = "Visible";
+                LoadAvatar(appDirectory + teacherProp.avatar);
                 Name = teacherProp.name;
                 DateOfBirth = teacherProp.dateOfBirth;
                 Sex = SexList.Where(x => x.sexID == teacherProp.sex).FirstOrDefault().sexName;
                 CitizenIdentification = teacherProp.citizenIdentification;
                 Phone = teacherProp.phone;
                 Nation = teacherProp.name;
-                ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.teacher_class.FirstOrDefault().teacher.userId == CurrentUser.UserID));
+                LoadData();
+            }
+            else if (CurrentUser.UserRole == 3)
+            {
+                var parentInfo = DataProvider.Ins.DB.parents.Where(x => x.usersId == CurrentUser.UserID).FirstOrDefault();
+                if (parentInfo != null)
+                {
+                    ListStudent = new ObservableCollection<student>(DataProvider.Ins.DB.students.Where(x => x.parents.FirstOrDefault().id == parentInfo.id));
+                }
+                LoadAvatar(defaultPath);
             }
             else
             {
-                UserAvatar = "/Images/User/default-avatar-image.png";
+                LoadAvatar(defaultPath);
             }
 
             if (ClassList == null || ClassList.Count() == 0)
@@ -226,10 +257,6 @@ namespace DoAnTotNghiep.ViewModel
                     TeacherEditWindow teacherEditWindow = new TeacherEditWindow();
                     teacherEditWindow.Show();
                 }
-            });
-
-            AddPracticeWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
-                MessageBox.Show("Test");
             });
 
             EditPassWindow = new RelayCommand<object>((p) => { return true; }, (p) => {
@@ -273,6 +300,7 @@ namespace DoAnTotNghiep.ViewModel
 
                         MessageBox.Show("Lưu thành công!");
 
+                        LoadAvatar(appDirectory +  studentProp.avatar);
                         AddressEdit = "";
                         DateOfBirthEdit = DateTime.Now;
                         SelectedSex = null;
@@ -296,6 +324,7 @@ namespace DoAnTotNghiep.ViewModel
 
                         MessageBox.Show("Lưu thành công!");
 
+                        LoadAvatar(appDirectory + teacherProp.avatar);
                         CitizenIdentificationEdit = "";
                         NationEdit = "";
                         PhoneEdit = "";
@@ -350,6 +379,38 @@ namespace DoAnTotNghiep.ViewModel
                 }
             }
 
+        }
+
+        public void LoadData()
+        {
+            if (CurrentUser.UserRole == 4)
+            {
+                ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.teacher_class.FirstOrDefault().teacher.userId == CurrentUser.UserID));
+            }
+            else if (CurrentUser.UserRole == 2)
+            {
+                ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.students_classes.FirstOrDefault().student.userId == CurrentUser.UserID));
+            }
+            else
+            {
+                if (SelectedStudent != null)
+                    ClassList = new ObservableCollection<@class>(DataProvider.Ins.DB.classes.Where(x => x.students_classes.FirstOrDefault().studentId == SelectedStudent.id));
+            }
+            if (ClassList == null || ClassList.Count() == 0)
+            {
+                IsEmpty = "Visible";
+                IsList = "Collapsed";
+            }
+            else
+            {
+                IsEmpty = "Collapsed";
+                IsList = "Visible";
+            }
+        }
+
+        private void LoadAvatar(string path)
+        {
+            UserAvatar = path;
         }
 
     }

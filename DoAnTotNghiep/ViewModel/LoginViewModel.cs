@@ -16,12 +16,12 @@ namespace DoAnTotNghiep.ViewModel
         public bool IsAdminLogin { get; set; }
         public bool IsStudentLogin { get; set; }
         public bool IsTeacherLogin { get; set; }
+        public bool IsParentLogin { get; set; }
         private string _UserName;
         public string UserName { get => _UserName; set { _UserName = value; OnPropertyChanged(); } }
         private string _Password;
         public string Password { get => _Password; set { _Password = value; OnPropertyChanged(); } }
         public ICommand LoginCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
 
         public LoginViewModel()
@@ -29,11 +29,11 @@ namespace DoAnTotNghiep.ViewModel
             IsAdminLogin = false;
             IsStudentLogin = false;
             IsTeacherLogin = false;
+            IsParentLogin = false;
             UserName = "";
             Password = "";
             LoginCommand = new RelayCommand<Window>((p) => { return true; }, (p) => { Login(p); });
             PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
-            LogoutCommand = new RelayCommand<Window>((p) => { return true; }, (p) => { Logout(); });
 
         }
 
@@ -58,6 +58,11 @@ namespace DoAnTotNghiep.ViewModel
                     IsStudentLogin = true;
                     p.Close();
                 }
+                else if (user.role.id == 3)
+                {
+                    IsParentLogin = true;
+                    p.Close();
+                }
                 else
                 {
                     IsTeacherLogin = true;
@@ -69,10 +74,6 @@ namespace DoAnTotNghiep.ViewModel
                 IsAdminLogin = false;
                 MessageBox.Show("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại!");
             }
-        }
-
-        void Logout()
-        {
         }
     }
 

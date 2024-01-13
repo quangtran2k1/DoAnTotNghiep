@@ -10,5 +10,5 @@
     <viewmodel:ParentViewModel x:Key="ParentVM"></viewmodel:ParentViewModel>
     <viewmodel:TeacherViewModel x:Key="TeacherVM"></viewmodel:TeacherViewModel>
     <viewmodel:MainUserViewModel x:Key="MainUserVM"></viewmodel:MainUserViewModel>
-    <viewmodel:PracticeViewModel x:Key="PracticeVM"></viewmodel:PracticeViewModel>
+    <viewmodel:SalaryViewModel x:Key="SalaryVM"></viewmodel:SalaryViewModel>
 </ResourceDictionary>

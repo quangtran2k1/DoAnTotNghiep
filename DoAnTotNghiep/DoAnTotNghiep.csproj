@@ -116,19 +116,16 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\base_salary.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\bonu.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\class.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DataProvider.cs" />
     <Compile Include="Model\discipline.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\exercise.cs">
       <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HanoiConnection.Context.cs">
@@ -146,55 +143,39 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HanoiConnection.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\HanoiConnectionModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HanoiConnectionModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\HanoiConnectionModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\HanoiConnectionModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HanoiConnectionModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\homework_student.cs">
+    <Compile Include="Model\lesson_count.cs">
       <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\lesson_count.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Model\Month.cs" />
     <Compile Include="Model\parent.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\role.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\salary.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SalaryDetail.cs" />
     <Compile Include="Model\semester.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Sex.cs" />
     <Compile Include="Model\Status.cs" />
     <Compile Include="Model\student.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\students_classes.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\teacher.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\teacher_class.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\user.cs">
-      <DependentUpon>HanoiConnectionModel.tt</DependentUpon>
+      <DependentUpon>HanoiConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\UserCount.cs" />
     <Compile Include="Model\UserList.cs" />
@@ -204,8 +185,8 @@
     <Compile Include="ParentManagerWindow.xaml.cs">
       <DependentUpon>ParentManagerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PracticeWindow.xaml.cs">
-      <DependentUpon>PracticeWindow.xaml</DependentUpon>
+    <Compile Include="SalarysWinow.xaml.cs">
+      <DependentUpon>SalarysWinow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SemestersWindow.xaml.cs">
       <DependentUpon>SemestersWindow.xaml</DependentUpon>
@@ -247,7 +228,7 @@
     <Compile Include="ViewModel\MainUserViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ParentViewModel.cs" />
-    <Compile Include="ViewModel\PracticeViewModel.cs" />
+    <Compile Include="ViewModel\SalaryViewModel.cs" />
     <Compile Include="ViewModel\SemesterViewModel.cs" />
     <Compile Include="ViewModel\StudentViewModel.cs" />
     <Compile Include="ViewModel\TeacherViewModel.cs" />
@@ -288,11 +269,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PracticeWindow.xaml">
+    <Page Include="ResourceXAML\MainResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceXAML\MainResource.xaml">
+    <Page Include="SalarysWinow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -366,13 +347,6 @@
     <None Include="Model\HanoiConnection.edmx.diagram">
       <DependentUpon>HanoiConnection.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="Model\HanoiConnectionModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HanoiConnectionModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\HanoiConnectionModel.edmx.diagram">
-      <DependentUpon>HanoiConnectionModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -398,18 +372,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\HanoiConnectionModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HanoiConnectionModel.edmx</DependentUpon>
-      <LastGenOutput>HanoiConnectionModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\HanoiConnectionModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HanoiConnectionModel.edmx</DependentUpon>
-      <LastGenOutput>HanoiConnectionModel.cs</LastGenOutput>
-    </Content>
-    <Resource Include="Images\User\default-avatar-image.png" />
-    <Resource Include="Images\User\IMG_2698.jpeg" />
     <Content Include="Model\HanoiConnection.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HanoiConnection.edmx</DependentUpon>
@@ -420,6 +382,8 @@
       <DependentUpon>HanoiConnection.edmx</DependentUpon>
       <LastGenOutput>HanoiConnection.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\User\default-avatar-image.png" />
+    <Resource Include="Images\User\IMG_2698.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

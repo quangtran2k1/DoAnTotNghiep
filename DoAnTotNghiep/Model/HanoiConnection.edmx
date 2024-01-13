@@ -4,7 +4,31 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HanoiConnectionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HanoiConnection.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="base_salary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Nullable="false" />
+          <Property Name="updatedAt" Type="datetime" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="currentSalary" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bonus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Nullable="false" />
+          <Property Name="updatedAt" Type="datetime" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="reason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="bonus" Type="int" Nullable="false" />
+          <Property Name="teacherId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="classes">
           <Key>
             <PropertyRef Name="id" />
@@ -20,7 +44,7 @@
           <Property Name="status" Type="tinyint" Nullable="false" />
           <Property Name="semesterId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="exercise">
+        <EntityType Name="discipline">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -29,14 +53,11 @@
           <Property Name="updatedAt" Type="datetime" />
           <Property Name="createdBy" Type="int" Nullable="false" />
           <Property Name="updatedBy" Type="int" />
-          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="fileName" Type="varchar(max)" Nullable="false" />
-          <Property Name="startDate" Type="datetime" Nullable="false" />
-          <Property Name="dueDate" Type="datetime" Nullable="false" />
-          <Property Name="status" Type="tinyint" Nullable="false" />
-          <Property Name="classesTeacherId" Type="int" Nullable="false" />
+          <Property Name="reason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fine" Type="int" Nullable="false" />
+          <Property Name="teacherId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="homework_student">
+        <EntityType Name="lesson_count">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -45,10 +66,8 @@
           <Property Name="updatedAt" Type="datetime" />
           <Property Name="createdBy" Type="int" Nullable="false" />
           <Property Name="updatedBy" Type="int" />
-          <Property Name="point" Type="float" />
-          <Property Name="status" Type="tinyint" Nullable="false" />
-          <Property Name="exerciseId" Type="int" Nullable="false" />
-          <Property Name="studentId" Type="int" Nullable="false" />
+          <Property Name="lessonsCount" Type="int" Nullable="false" />
+          <Property Name="teacherId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="parents">
           <Key>
@@ -72,6 +91,21 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="salary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Nullable="false" />
+          <Property Name="updatedAt" Type="datetime" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="month" Type="int" Nullable="false" />
+          <Property Name="year" Type="int" Nullable="false" />
+          <Property Name="baseSalaryId" Type="int" Nullable="false" />
+          <Property Name="teacherId" Type="int" Nullable="false" />
+          <Property Name="total" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="semester">
           <Key>
@@ -144,7 +178,7 @@
           <Property Name="name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="citizenIdentification" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="dateOfBirth" Type="date" Nullable="false" />
-          <Property Name="nation" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="nation" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="sex" Type="tinyint" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="avatar" Type="varchar(max)" Nullable="false" />
@@ -164,6 +198,18 @@
           <Property Name="updatedAt" Type="datetime" />
           <Property Name="roleId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_bonus_teachers">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="1" />
+          <End Role="bonus" Type="Self.bonus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="bonus">
+              <PropertyRef Name="teacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_classes_semester">
           <End Role="semester" Type="Self.semester" Multiplicity="1" />
           <End Role="classes" Type="Self.classes" Multiplicity="*" />
@@ -176,39 +222,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_exercise_teacher_class">
-          <End Role="teacher_class" Type="Self.teacher_class" Multiplicity="1" />
-          <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
+        <Association Name="FK_discipline_teachers">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="1" />
+          <End Role="discipline" Type="Self.discipline" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="teacher_class">
+            <Principal Role="teachers">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="exercise">
-              <PropertyRef Name="classesTeacherId" />
+            <Dependent Role="discipline">
+              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_homework_student_exercise">
-          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
-          <End Role="homework_student" Type="Self.homework_student" Multiplicity="*" />
+        <Association Name="FK_lesson_count_teachers">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="1" />
+          <End Role="lesson_count" Type="Self.lesson_count" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="exercise">
+            <Principal Role="teachers">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="homework_student">
-              <PropertyRef Name="exerciseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_homework_student_students">
-          <End Role="students" Type="Self.students" Multiplicity="1" />
-          <End Role="homework_student" Type="Self.homework_student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="students">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="homework_student">
-              <PropertyRef Name="studentId" />
+            <Dependent Role="lesson_count">
+              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -233,6 +267,30 @@
             </Principal>
             <Dependent Role="parents">
               <PropertyRef Name="usersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salary_base_salary">
+          <End Role="base_salary" Type="Self.base_salary" Multiplicity="1" />
+          <End Role="salary" Type="Self.salary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="base_salary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salary">
+              <PropertyRef Name="baseSalaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salary_teachers">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="1" />
+          <End Role="salary" Type="Self.salary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salary">
+              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -320,33 +378,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HanoiConnectionModelStoreContainer">
+        <EntityContainer Name="HanoiConnectionStoreContainer">
+          <EntitySet Name="base_salary" EntityType="Self.base_salary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bonus" EntityType="Self.bonus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="classes" EntityType="Self.classes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="exercise" EntityType="Self.exercise" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="homework_student" EntityType="Self.homework_student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="discipline" EntityType="Self.discipline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lesson_count" EntityType="Self.lesson_count" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="parents" EntityType="Self.parents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salary" EntityType="Self.salary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="semester" EntityType="Self.semester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="students" EntityType="Self.students" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="students_classes" EntityType="Self.students_classes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="teacher_class" EntityType="Self.teacher_class" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="teachers" EntityType="Self.teachers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_bonus_teachers" Association="Self.FK_bonus_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="bonus" EntitySet="bonus" />
+          </AssociationSet>
           <AssociationSet Name="FK_classes_semester" Association="Self.FK_classes_semester">
             <End Role="semester" EntitySet="semester" />
             <End Role="classes" EntitySet="classes" />
           </AssociationSet>
-          <AssociationSet Name="FK_exercise_teacher_class" Association="Self.FK_exercise_teacher_class">
-            <End Role="teacher_class" EntitySet="teacher_class" />
-            <End Role="exercise" EntitySet="exercise" />
+          <AssociationSet Name="FK_discipline_teachers" Association="Self.FK_discipline_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="discipline" EntitySet="discipline" />
           </AssociationSet>
-          <AssociationSet Name="FK_homework_student_exercise" Association="Self.FK_homework_student_exercise">
-            <End Role="exercise" EntitySet="exercise" />
-            <End Role="homework_student" EntitySet="homework_student" />
-          </AssociationSet>
-          <AssociationSet Name="FK_homework_student_students" Association="Self.FK_homework_student_students">
-            <End Role="students" EntitySet="students" />
-            <End Role="homework_student" EntitySet="homework_student" />
+          <AssociationSet Name="FK_lesson_count_teachers" Association="Self.FK_lesson_count_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="lesson_count" EntitySet="lesson_count" />
           </AssociationSet>
           <AssociationSet Name="FK_parents_students" Association="Self.FK_parents_students">
             <End Role="students" EntitySet="students" />
@@ -355,6 +416,14 @@
           <AssociationSet Name="FK_parents_users" Association="Self.FK_parents_users">
             <End Role="users" EntitySet="users" />
             <End Role="parents" EntitySet="parents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salary_base_salary" Association="Self.FK_salary_base_salary">
+            <End Role="base_salary" EntitySet="base_salary" />
+            <End Role="salary" EntitySet="salary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salary_teachers" Association="Self.FK_salary_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="salary" EntitySet="salary" />
           </AssociationSet>
           <AssociationSet Name="FK_students_classes_classes" Association="Self.FK_students_classes_classes">
             <End Role="classes" EntitySet="classes" />
@@ -389,7 +458,33 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="HanoiConnectionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="HanoiConnection" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="base_salary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedAt" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="currentSalary" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="salaries" Relationship="Self.FK_salary_base_salary" FromRole="base_salary" ToRole="salary" />
+        </EntityType>
+        <EntityType Name="bonu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedAt" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bonus" Type="Int32" Nullable="false" />
+          <Property Name="teacherId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="teacher" Relationship="Self.FK_bonus_teachers" FromRole="bonus" ToRole="teachers" />
+        </EntityType>
         <EntityType Name="class">
           <Key>
             <PropertyRef Name="id" />
@@ -408,7 +503,7 @@
           <NavigationProperty Name="students_classes" Relationship="Self.FK_students_classes_classes" FromRole="classes" ToRole="students_classes" />
           <NavigationProperty Name="teacher_class" Relationship="Self.FK_teacher_class_classes" FromRole="classes" ToRole="teacher_class" />
         </EntityType>
-        <EntityType Name="exercise">
+        <EntityType Name="discipline">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -417,16 +512,12 @@
           <Property Name="updatedAt" Type="DateTime" Precision="3" />
           <Property Name="createdBy" Type="Int32" Nullable="false" />
           <Property Name="updatedBy" Type="Int32" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="dueDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="status" Type="Byte" Nullable="false" />
-          <Property Name="classesTeacherId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="teacher_class" Relationship="Self.FK_exercise_teacher_class" FromRole="exercise" ToRole="teacher_class" />
-          <NavigationProperty Name="homework_student" Relationship="Self.FK_homework_student_exercise" FromRole="exercise" ToRole="homework_student" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fine" Type="Int32" Nullable="false" />
+          <Property Name="teacherId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="teacher" Relationship="Self.FK_discipline_teachers" FromRole="discipline" ToRole="teachers" />
         </EntityType>
-        <EntityType Name="homework_student">
+        <EntityType Name="lesson_count">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -435,12 +526,9 @@
           <Property Name="updatedAt" Type="DateTime" Precision="3" />
           <Property Name="createdBy" Type="Int32" Nullable="false" />
           <Property Name="updatedBy" Type="Int32" />
-          <Property Name="point" Type="Double" />
-          <Property Name="status" Type="Byte" Nullable="false" />
-          <Property Name="exerciseId" Type="Int32" Nullable="false" />
-          <Property Name="studentId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="exercise" Relationship="Self.FK_homework_student_exercise" FromRole="homework_student" ToRole="exercise" />
-          <NavigationProperty Name="student" Relationship="Self.FK_homework_student_students" FromRole="homework_student" ToRole="students" />
+          <Property Name="lessonsCount" Type="Int32" Nullable="false" />
+          <Property Name="teacherId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="teacher" Relationship="Self.FK_lesson_count_teachers" FromRole="lesson_count" ToRole="teachers" />
         </EntityType>
         <EntityType Name="parent">
           <Key>
@@ -467,6 +555,23 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="role1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="users" Relationship="Self.FK_users_role" FromRole="role" ToRole="users" />
+        </EntityType>
+        <EntityType Name="salary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedAt" Type="DateTime" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="month" Type="Int32" Nullable="false" />
+          <Property Name="year" Type="Int32" Nullable="false" />
+          <Property Name="baseSalaryId" Type="Int32" Nullable="false" />
+          <Property Name="teacherId" Type="Int32" Nullable="false" />
+          <Property Name="total" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="base_salary" Relationship="Self.FK_salary_base_salary" FromRole="salary" ToRole="base_salary" />
+          <NavigationProperty Name="teacher" Relationship="Self.FK_salary_teachers" FromRole="salary" ToRole="teachers" />
         </EntityType>
         <EntityType Name="semester">
           <Key>
@@ -499,7 +604,6 @@
           <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="status" Type="Byte" Nullable="false" />
           <Property Name="userId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="homework_student" Relationship="Self.FK_homework_student_students" FromRole="students" ToRole="homework_student" />
           <NavigationProperty Name="parents" Relationship="Self.FK_parents_students" FromRole="students" ToRole="parents" />
           <NavigationProperty Name="students_classes" Relationship="Self.FK_students_classes_students" FromRole="students" ToRole="students_classes" />
           <NavigationProperty Name="user" Relationship="Self.FK_students_users" FromRole="students" ToRole="users" />
@@ -534,7 +638,6 @@
           <Property Name="teacherId" Type="Int32" Nullable="false" />
           <Property Name="classesId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="class" Relationship="Self.FK_teacher_class_classes" FromRole="teacher_class" ToRole="classes" />
-          <NavigationProperty Name="exercises" Relationship="Self.FK_exercise_teacher_class" FromRole="teacher_class" ToRole="exercise" />
           <NavigationProperty Name="teacher" Relationship="Self.FK_teacher_class_teachers" FromRole="teacher_class" ToRole="teachers" />
         </EntityType>
         <EntityType Name="teacher">
@@ -549,12 +652,16 @@
           <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="citizenIdentification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="nation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="sex" Type="Byte" Nullable="false" />
           <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="status" Type="Byte" Nullable="false" />
           <Property Name="userId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="bonus" Relationship="Self.FK_bonus_teachers" FromRole="teachers" ToRole="bonus" />
+          <NavigationProperty Name="disciplines" Relationship="Self.FK_discipline_teachers" FromRole="teachers" ToRole="discipline" />
+          <NavigationProperty Name="lesson_count" Relationship="Self.FK_lesson_count_teachers" FromRole="teachers" ToRole="lesson_count" />
+          <NavigationProperty Name="salaries" Relationship="Self.FK_salary_teachers" FromRole="teachers" ToRole="salary" />
           <NavigationProperty Name="teacher_class" Relationship="Self.FK_teacher_class_teachers" FromRole="teachers" ToRole="teacher_class" />
           <NavigationProperty Name="user" Relationship="Self.FK_teachers_users" FromRole="teachers" ToRole="users" />
         </EntityType>
@@ -575,6 +682,30 @@
           <NavigationProperty Name="students" Relationship="Self.FK_students_users" FromRole="users" ToRole="students" />
           <NavigationProperty Name="teachers" Relationship="Self.FK_teachers_users" FromRole="users" ToRole="teachers" />
         </EntityType>
+        <Association Name="FK_salary_base_salary">
+          <End Role="base_salary" Type="Self.base_salary" Multiplicity="1" />
+          <End Role="salary" Type="Self.salary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="base_salary">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salary">
+              <PropertyRef Name="baseSalaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bonus_teachers">
+          <End Role="teachers" Type="Self.teacher" Multiplicity="1" />
+          <End Role="bonus" Type="Self.bonu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="bonus">
+              <PropertyRef Name="teacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_classes_semester">
           <End Role="semester" Type="Self.semester" Multiplicity="1" />
           <End Role="classes" Type="Self.class" Multiplicity="*" />
@@ -611,39 +742,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_exercise_teacher_class">
-          <End Role="teacher_class" Type="Self.teacher_class" Multiplicity="1" />
-          <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
+        <Association Name="FK_discipline_teachers">
+          <End Role="teachers" Type="Self.teacher" Multiplicity="1" />
+          <End Role="discipline" Type="Self.discipline" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="teacher_class">
+            <Principal Role="teachers">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="exercise">
-              <PropertyRef Name="classesTeacherId" />
+            <Dependent Role="discipline">
+              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_homework_student_exercise">
-          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
-          <End Role="homework_student" Type="Self.homework_student" Multiplicity="*" />
+        <Association Name="FK_lesson_count_teachers">
+          <End Role="teachers" Type="Self.teacher" Multiplicity="1" />
+          <End Role="lesson_count" Type="Self.lesson_count" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="exercise">
+            <Principal Role="teachers">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="homework_student">
-              <PropertyRef Name="exerciseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_homework_student_students">
-          <End Role="students" Type="Self.student" Multiplicity="1" />
-          <End Role="homework_student" Type="Self.homework_student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="students">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="homework_student">
-              <PropertyRef Name="studentId" />
+            <Dependent Role="lesson_count">
+              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -680,6 +799,18 @@
             </Principal>
             <Dependent Role="users">
               <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salary_teachers">
+          <End Role="teachers" Type="Self.teacher" Multiplicity="1" />
+          <End Role="salary" Type="Self.salary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salary">
+              <PropertyRef Name="teacherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -732,17 +863,28 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HanoiConnectionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="base_salary" EntityType="Self.base_salary" />
+          <EntitySet Name="bonus" EntityType="Self.bonu" />
           <EntitySet Name="classes" EntityType="Self.class" />
-          <EntitySet Name="exercises" EntityType="Self.exercise" />
-          <EntitySet Name="homework_student" EntityType="Self.homework_student" />
+          <EntitySet Name="disciplines" EntityType="Self.discipline" />
+          <EntitySet Name="lesson_count" EntityType="Self.lesson_count" />
           <EntitySet Name="parents" EntityType="Self.parent" />
           <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="salaries" EntityType="Self.salary" />
           <EntitySet Name="semesters" EntityType="Self.semester" />
           <EntitySet Name="students" EntityType="Self.student" />
           <EntitySet Name="students_classes" EntityType="Self.students_classes" />
           <EntitySet Name="teacher_class" EntityType="Self.teacher_class" />
           <EntitySet Name="teachers" EntityType="Self.teacher" />
           <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_salary_base_salary" Association="Self.FK_salary_base_salary">
+            <End Role="base_salary" EntitySet="base_salary" />
+            <End Role="salary" EntitySet="salaries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bonus_teachers" Association="Self.FK_bonus_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="bonus" EntitySet="bonus" />
+          </AssociationSet>
           <AssociationSet Name="FK_classes_semester" Association="Self.FK_classes_semester">
             <End Role="semester" EntitySet="semesters" />
             <End Role="classes" EntitySet="classes" />
@@ -755,17 +897,13 @@
             <End Role="classes" EntitySet="classes" />
             <End Role="teacher_class" EntitySet="teacher_class" />
           </AssociationSet>
-          <AssociationSet Name="FK_exercise_teacher_class" Association="Self.FK_exercise_teacher_class">
-            <End Role="teacher_class" EntitySet="teacher_class" />
-            <End Role="exercise" EntitySet="exercises" />
+          <AssociationSet Name="FK_discipline_teachers" Association="Self.FK_discipline_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="discipline" EntitySet="disciplines" />
           </AssociationSet>
-          <AssociationSet Name="FK_homework_student_exercise" Association="Self.FK_homework_student_exercise">
-            <End Role="exercise" EntitySet="exercises" />
-            <End Role="homework_student" EntitySet="homework_student" />
-          </AssociationSet>
-          <AssociationSet Name="FK_homework_student_students" Association="Self.FK_homework_student_students">
-            <End Role="students" EntitySet="students" />
-            <End Role="homework_student" EntitySet="homework_student" />
+          <AssociationSet Name="FK_lesson_count_teachers" Association="Self.FK_lesson_count_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="lesson_count" EntitySet="lesson_count" />
           </AssociationSet>
           <AssociationSet Name="FK_parents_students" Association="Self.FK_parents_students">
             <End Role="students" EntitySet="students" />
@@ -778,6 +916,10 @@
           <AssociationSet Name="FK_users_role" Association="Self.FK_users_role">
             <End Role="role" EntitySet="roles" />
             <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salary_teachers" Association="Self.FK_salary_teachers">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="salary" EntitySet="salaries" />
           </AssociationSet>
           <AssociationSet Name="FK_students_classes_students" Association="Self.FK_students_classes_students">
             <End Role="students" EntitySet="students" />
@@ -801,9 +943,35 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HanoiConnectionModelStoreContainer" CdmEntityContainer="HanoiConnectionEntities">
+        <EntityContainerMapping StorageEntityContainer="HanoiConnectionStoreContainer" CdmEntityContainer="HanoiConnectionEntities">
+          <EntitySetMapping Name="base_salary">
+            <EntityTypeMapping TypeName="HanoiConnection.base_salary">
+              <MappingFragment StoreEntitySet="base_salary">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+                <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="currentSalary" ColumnName="currentSalary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bonus">
+            <EntityTypeMapping TypeName="HanoiConnection.bonu">
+              <MappingFragment StoreEntitySet="bonus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+                <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="bonus" ColumnName="bonus" />
+                <ScalarProperty Name="teacherId" ColumnName="teacherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="classes">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.class">
+            <EntityTypeMapping TypeName="HanoiConnection.class">
               <MappingFragment StoreEntitySet="classes">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -818,40 +986,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="exercises">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.exercise">
-              <MappingFragment StoreEntitySet="exercise">
+          <EntitySetMapping Name="disciplines">
+            <EntityTypeMapping TypeName="HanoiConnection.discipline">
+              <MappingFragment StoreEntitySet="discipline">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
                 <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="fileName" ColumnName="fileName" />
-                <ScalarProperty Name="startDate" ColumnName="startDate" />
-                <ScalarProperty Name="dueDate" ColumnName="dueDate" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="classesTeacherId" ColumnName="classesTeacherId" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="fine" ColumnName="fine" />
+                <ScalarProperty Name="teacherId" ColumnName="teacherId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="homework_student">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.homework_student">
-              <MappingFragment StoreEntitySet="homework_student">
+          <EntitySetMapping Name="lesson_count">
+            <EntityTypeMapping TypeName="HanoiConnection.lesson_count">
+              <MappingFragment StoreEntitySet="lesson_count">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
                 <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="point" ColumnName="point" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="exerciseId" ColumnName="exerciseId" />
-                <ScalarProperty Name="studentId" ColumnName="studentId" />
+                <ScalarProperty Name="lessonsCount" ColumnName="lessonsCount" />
+                <ScalarProperty Name="teacherId" ColumnName="teacherId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="parents">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.parent">
+            <EntityTypeMapping TypeName="HanoiConnection.parent">
               <MappingFragment StoreEntitySet="parents">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -868,15 +1031,31 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="roles">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.role">
+            <EntityTypeMapping TypeName="HanoiConnection.role">
               <MappingFragment StoreEntitySet="role">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="role1" ColumnName="role" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="salaries">
+            <EntityTypeMapping TypeName="HanoiConnection.salary">
+              <MappingFragment StoreEntitySet="salary">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+                <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="baseSalaryId" ColumnName="baseSalaryId" />
+                <ScalarProperty Name="teacherId" ColumnName="teacherId" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="semesters">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.semester">
+            <EntityTypeMapping TypeName="HanoiConnection.semester">
               <MappingFragment StoreEntitySet="semester">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -891,7 +1070,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="students">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.student">
+            <EntityTypeMapping TypeName="HanoiConnection.student">
               <MappingFragment StoreEntitySet="students">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -909,7 +1088,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="students_classes">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.students_classes">
+            <EntityTypeMapping TypeName="HanoiConnection.students_classes">
               <MappingFragment StoreEntitySet="students_classes">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -924,7 +1103,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="teacher_class">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.teacher_class">
+            <EntityTypeMapping TypeName="HanoiConnection.teacher_class">
               <MappingFragment StoreEntitySet="teacher_class">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -939,7 +1118,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="teachers">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.teacher">
+            <EntityTypeMapping TypeName="HanoiConnection.teacher">
               <MappingFragment StoreEntitySet="teachers">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="createdAt" ColumnName="createdAt" />
@@ -959,7 +1138,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="HanoiConnectionModel.user">
+            <EntityTypeMapping TypeName="HanoiConnection.user">
               <MappingFragment StoreEntitySet="users">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />

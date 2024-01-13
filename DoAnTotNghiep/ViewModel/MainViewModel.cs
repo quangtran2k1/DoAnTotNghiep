@@ -30,6 +30,7 @@ namespace DoAnTotNghiep.ViewModel
         public ICommand TeacherWindowCommand { get; set; }
         public ICommand ParentWindowCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
+        public ICommand SalaryWindowCommand { get; set; }
 
         public MainViewModel()
         {
@@ -56,6 +57,12 @@ namespace DoAnTotNghiep.ViewModel
                 {
                     TeacherMainWindow teacherMainWindow = new TeacherMainWindow();
                     teacherMainWindow.Show();
+                    p.Close();
+                }
+                else if (loginVM.IsParentLogin)
+                {
+                    ParentMainWindow parentMainWindow = new ParentMainWindow();
+                    parentMainWindow.Show();
                     p.Close();
                 }
                 else p.Close();
@@ -94,6 +101,11 @@ namespace DoAnTotNghiep.ViewModel
             ParentWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
                 ParentManagerWindow parentManagerWindow = new ParentManagerWindow();
                 parentManagerWindow.ShowDialog();
+            });
+
+            SalaryWindowCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                SalarysWinow salarysWinow = new SalarysWinow();
+                salarysWinow.ShowDialog();
             });
 
             studentCount = DataProvider.Ins.DB.users.Where(u => u.role.id == 2 && u.status == 1).Count();

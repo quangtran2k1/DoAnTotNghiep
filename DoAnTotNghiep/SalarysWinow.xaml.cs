@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace DoAnTotNghiep
 {
     /// <summary>
-    /// Interaction logic for PracticeWindow.xaml
+    /// Interaction logic for SalarysWinow.xaml
     /// </summary>
-    public partial class PracticeWindow : Window
+    public partial class SalarysWinow : Window
     {
-        public PracticeWindow()
+        public SalarysWinow()
         {
             InitializeComponent();
         }
