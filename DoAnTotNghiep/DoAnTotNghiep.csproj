@@ -185,6 +185,9 @@
     <Compile Include="ParentManagerWindow.xaml.cs">
       <DependentUpon>ParentManagerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SalaryDetailWindow.xaml.cs">
+      <DependentUpon>SalaryDetailWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SalarysWinow.xaml.cs">
       <DependentUpon>SalarysWinow.xaml</DependentUpon>
     </Compile>
@@ -270,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceXAML\MainResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SalaryDetailWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
