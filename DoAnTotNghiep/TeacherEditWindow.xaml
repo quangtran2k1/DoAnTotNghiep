@@ -62,18 +62,16 @@
                                 materialDesign:HintAssist.Hint="Căn cước công dân"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                 Text="{Binding CitizenIdentificationEdit}"/>
-                            <ComboBox
+                            <ComboBox 
                                 Grid.Column="1"
                                 Margin="10"
                                 materialDesign:HintAssist.Hint="Giới tính"
                                 Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                SelectedValue="{Binding sex}">
-                                <ComboBoxItem Content="Nam">
-                                </ComboBoxItem>
-                                <ComboBoxItem Content="Nữ">
-                                </ComboBoxItem>
-                                <ComboBoxItem Content="Khác">
-                                </ComboBoxItem>
+                                ItemsSource="{Binding SexList}"
+                                SelectedItem="{Binding SelectedSex, Mode=TwoWay}"
+                                DisplayMemberPath="sexName"
+                                SelectedValuePath="sexID"
+                                SelectedValue="{Binding SelectedSex.sexID, Mode=TwoWay}">
                             </ComboBox>
                         </Grid>
                         <Grid Grid.Row="1">

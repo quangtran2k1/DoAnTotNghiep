@@ -27,8 +27,7 @@ namespace DoAnTotNghiep.ViewModel
                 {
                     w.Close();
                 }
-            }
-            );
+            });
             //MaximizeWindowCommand = new RelayCommand<UserControl>((p) => { return p == null ? false : true; }, (p) =>
             //{
             //    FrameworkElement window = GetWindowParent(p);

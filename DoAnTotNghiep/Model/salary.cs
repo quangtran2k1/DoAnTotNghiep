@@ -9,22 +9,30 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class salary
+    public partial class salary : BaseViewModel
     {
         public int id { get; set; }
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
+        private Nullable<System.DateTime> _updatedAt;
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get; set; }
-        public int month { get; set; }
-        public int year { get; set; }
-        public int baseSalaryId { get; set; }
-        public int teacherId { get; set; }
-        public int total { get; set; }
-    
+        private Nullable<int> _updatedBy;
+        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
+        private int _month;
+        public int month { get => _month; set { _month = value; OnPropertyChanged(); } }
+        private int _year;
+        public int year { get => _year; set { _year = value; OnPropertyChanged(); } }
+        private int _baseSalaryId;
+        public int baseSalaryId { get => _baseSalaryId; set { _baseSalaryId = value; OnPropertyChanged(); } }
+        private int _teacherId;
+        public int teacherId { get => _teacherId; set { _teacherId = value; OnPropertyChanged(); } }
+        private int _total;
+        public int total { get => _total; set { _total = value; OnPropertyChanged(); } }
+
         public virtual base_salary base_salary { get; set; }
         public virtual teacher teacher { get; set; }
     }

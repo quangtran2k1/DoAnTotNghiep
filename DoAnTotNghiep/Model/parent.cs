@@ -9,21 +9,29 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class parent
+    public partial class parent : BaseViewModel
     {
         public int id { get; set; }
+        private Nullable<System.DateTime> _updatedAt;
+        private Nullable<int> _updatedBy;
+        private string _dadName;
+        private string _dadPhone;
+        private string _momName;
+        private string _momPhone;
+        private int _studentId;
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get; set; }
-        public string dadName { get; set; }
-        public string dadPhone { get; set; }
-        public string momName { get; set; }
-        public string momPhone { get; set; }
-        public int studentId { get; set; }
+        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
+        public string dadName { get => _dadName; set { _dadName = value; OnPropertyChanged(); } }
+        public string dadPhone { get => _dadPhone; set { _dadPhone = value; OnPropertyChanged(); } }
+        public string momName { get => _momName; set { _momName = value; OnPropertyChanged(); } }
+        public string momPhone { get => _momPhone; set { _momPhone = value; OnPropertyChanged(); } }
+        public int studentId { get => _studentId; set { _studentId = value; OnPropertyChanged(); } }
         public int usersId { get; set; }
     
         public virtual student student { get; set; }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DoAnTotNghiep.ViewModel
@@ -29,7 +30,6 @@ namespace DoAnTotNghiep.ViewModel
         public ICommand StudentWindowCommand { get; set; }
         public ICommand TeacherWindowCommand { get; set; }
         public ICommand ParentWindowCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
         public ICommand SalaryWindowCommand { get; set; }
 
         public MainViewModel()

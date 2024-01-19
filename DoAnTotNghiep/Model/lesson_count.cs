@@ -9,19 +9,24 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class lesson_count
+    public partial class lesson_count : BaseViewModel
     {
         public int id { get; set; }
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
+        private Nullable<System.DateTime> _updatedAt;
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get; set; }
-        public int lessonsCount { get; set; }
-        public int teacherId { get; set; }
-    
+        private Nullable<int> _updatedBy;
+        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
+        private int _lessonsCount;
+        public int lessonsCount { get => _lessonsCount; set { _lessonsCount = value; OnPropertyChanged(); } }
+        private int _teacherId;
+        public int teacherId { get => _teacherId; set { _teacherId = value; OnPropertyChanged(); } }
+
         public virtual teacher teacher { get; set; }
     }
 }

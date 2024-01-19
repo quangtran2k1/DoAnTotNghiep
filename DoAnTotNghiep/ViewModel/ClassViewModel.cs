@@ -456,7 +456,6 @@ namespace DoAnTotNghiep.ViewModel
                     };
                     DataProvider.Ins.DB.students_classes.Add(studentProp);
                     DataProvider.Ins.DB.SaveChanges();
-                    MessageBox.Show(studentProp.ToString());
 
                     StudentList.Add(studentProp);
 

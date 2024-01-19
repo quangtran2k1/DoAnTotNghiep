@@ -9,10 +9,11 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class user : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public user()
@@ -23,14 +24,20 @@ namespace DoAnTotNghiep.Model
         }
     
         public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public byte status { get; set; }
+        private string _username;
+        public string username { get => _username; set { _username = value; OnPropertyChanged(); } }
+        private string _password;
+        public string password { get => _password; set { _password = value; OnPropertyChanged(); } }
+        private string _email;
+        public string email { get => _email; set { _email = value; OnPropertyChanged(); } }
+        private byte _status;
+        public byte status { get =>_status; set { _status = value; OnPropertyChanged(); } }
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
-        public int roleId { get; set; }
-    
+        private Nullable<System.DateTime> _updatedAt;
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
+        private int _roleId;
+        public int roleId { get=> _roleId; set { _roleId = value; OnPropertyChanged(); } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<parent> parents { get; set; }
         public virtual role role { get; set; }

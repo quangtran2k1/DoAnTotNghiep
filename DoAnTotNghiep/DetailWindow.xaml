@@ -68,7 +68,7 @@
                             materialDesign:HintAssist.Hint="Chọn giáo viên"
                             Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                             SelectedValue="{Binding SelectedTeacher, UpdateSourceTrigger=PropertyChanged}"
-                            ItemsSource="{Binding TeacherSearchResult}" SelectionChanged="ComboBox_SelectionChanged">
+                            ItemsSource="{Binding TeacherSearchResult}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock>

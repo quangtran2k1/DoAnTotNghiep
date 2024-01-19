@@ -54,14 +54,14 @@
                     <Button
                         Margin="4 10"
                         HorizontalAlignment="Left"
-                        Command="{Binding IsSalary}"
+                        Command="{Binding IsSalaryCommand}"
                         Style="{DynamicResource MaterialDesignFlatButton}"
                         Content="DS nhận lương">
                     </Button>
                     <Button
                         Margin="4 10"
                         HorizontalAlignment="Left"
-                        Command="{Binding IsBaseSalary}"
+                        Command="{Binding IsBaseSalaryCommand}"
                         Style="{DynamicResource MaterialDesignFlatButton}"
                         Content="Lương cơ bản">
                     </Button>
@@ -69,7 +69,7 @@
                     <Button
                         Margin="4 10"
                         HorizontalAlignment="Left"
-                        Command="{Binding IsLessonsCount}"
+                        Command="{Binding IsLessonCountCommand}"
                         Style="{DynamicResource MaterialDesignFlatButton}"
                         Content="Số tiết dạy">
                     </Button>
@@ -77,14 +77,14 @@
                     <Button
                         Margin="4 10"
                         HorizontalAlignment="Left"
-                        Command="{Binding IsBonus}"
+                        Command="{Binding IsBonusCommand}"
                         Style="{DynamicResource MaterialDesignFlatButton}"
                         Content="Thưởng">
                     </Button>
                     <Button
                         Margin="4 10"
                         HorizontalAlignment="Left"
-                        Command="{Binding IsDiscipline}"
+                        Command="{Binding IsDisciplineCommand}"
                         Style="{DynamicResource MaterialDesignFlatButton}"
                         Content="Phạt">
                     </Button>
@@ -94,10 +94,17 @@
             <ScrollViewer Grid.Column="1">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <materialDesign:Card Grid.Row="0">
+                    <!--Salary-->
+                    <materialDesign:Card 
+                        Grid.Row="0"
+                        Margin="10"
+                        Visibility="{Binding IsSalary}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"></RowDefinition>
@@ -128,7 +135,7 @@
                                         materialDesign:HintAssist.Hint="Chọn giáo viên"
                                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                         SelectedValue="{Binding SelectedTeacher, UpdateSourceTrigger=PropertyChanged}"
-                                        ItemsSource="{Binding ListTeacher}">        
+                                        ItemsSource="{Binding TeacherSearchResult}">        
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock>
@@ -145,7 +152,7 @@
                                         materialDesign:HintAssist.Hint="Chọn lương cơ bản"
                                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                         SelectedValue="{Binding SelectedBaseSalary, UpdateSourceTrigger=PropertyChanged}"
-                                        ItemsSource="{Binding ListBaseSalary}"
+                                        ItemsSource="{Binding ListBS}"
                                         DisplayMemberPath="currentSalary">
                                     </ComboBox>
                                 </Grid>
@@ -157,10 +164,10 @@
                                     <ComboBox
                                         Grid.Column="0"
                                         Margin="10"
-                                        materialDesign:HintAssist.Hint="Chọn tháng"
+                                        materialDesign:HintAssist.Hint="Tháng"
                                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                         SelectedValue="{Binding SelectedMonthAdd, UpdateSourceTrigger=PropertyChanged}"
-                                        ItemsSource="{Binding ListMonthAdd}"
+                                        ItemsSource="{Binding ListMonth}"
                                         DisplayMemberPath="month">
                                     </ComboBox>
                                     <TextBox
@@ -209,7 +216,7 @@
                                 <ComboBox
                                     Grid.Column="0"
                                     Margin="10"
-                                    materialDesign:HintAssist.Hint="Chọn tháng"
+                                    materialDesign:HintAssist.Hint="Tháng"
                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                     SelectedValue="{Binding SelectedMonth, UpdateSourceTrigger=PropertyChanged}"
                                     ItemsSource="{Binding ListMonth}"
@@ -226,6 +233,7 @@
                                     Margin="10"
                                     HorizontalAlignment="Left"
                                     Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                    Command="{Binding FilterSalaryCommand}"
                                     Width="auto"
                                     ToolTip="Lọc">
                                     <StackPanel Orientation="Horizontal">
@@ -235,10 +243,9 @@
                                 </Button>
                             </Grid>
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="4">
-                                <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                                <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" Height="250">
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="Mã bảng lương" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                                             <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
                                             <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding CitizenIdentification}"></GridViewColumn>
                                             <GridViewColumn Header="Lương/tiết" DisplayMemberBinding="{Binding BaseSalary}"></GridViewColumn>
@@ -248,6 +255,500 @@
                                             <GridViewColumn Header="Tháng" DisplayMemberBinding="{Binding Month}"></GridViewColumn>
                                             <GridViewColumn Header="Năm" DisplayMemberBinding="{Binding Year}"></GridViewColumn>
                                             <GridViewColumn Header="Tổng nhận" DisplayMemberBinding="{Binding Total}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </ScrollViewer>
+                        </Grid>
+                    </materialDesign:Card>
+                    <!--Base Salary-->
+                    <materialDesign:Card
+                        Grid.Row="1"
+                        Margin="10"
+                        Visibility="{Binding IsBaseSalary}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="10"
+                                FontSize="25"
+                                Text="Thêm lương cơ bản theo tiết"/>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBox
+                                    Grid.Row="0"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Số lương theo tiết"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Text="{Binding CurrentSalary, UpdateSourceTrigger=PropertyChanged}"/>
+                                <WrapPanel Grid.Row="1">
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#4cc459"
+                                        BorderBrush="#4cc459"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding AddBSCommand}"
+                                        Width="100"
+                                        ToolTip="Thêm bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Thêm"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#ff9800"
+                                        BorderBrush="#ff9800"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding EditBSCommand}"
+                                        Width="100"
+                                        ToolTip="Sửa bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Sửa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                            <Separator Grid.Row="2"/>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="4">
+                                <ListView ItemsSource="{Binding ListBS}" SelectedItem="{Binding SelectedItemBS, Mode=OneWayToSource}" Height="250">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã lương cơ bản" DisplayMemberBinding="{Binding id}"></GridViewColumn>
+                                            <GridViewColumn Header="Mức lương cơ bản theo tiết" DisplayMemberBinding="{Binding currentSalary}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </ScrollViewer>
+                        </Grid>
+                    </materialDesign:Card>
+                    <!--Lesson Count-->
+                    <materialDesign:Card 
+                        Grid.Row="2"
+                        Margin="10"
+                        Visibility="{Binding IsLessonsCount}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="10"
+                                FontSize="25"
+                                Text="Số tiết dạy của giáo viên"/>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox 
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        materialDesign:HintAssist.Hint="Chọn giáo viên"
+                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                        SelectedValue="{Binding SelectedTeacherLC, UpdateSourceTrigger=PropertyChanged}"
+                                        ItemsSource="{Binding TeacherSearchResult}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <Run Text="{Binding id}" FontWeight="Bold" />
+                                                    <Run Text=" - " />
+                                                    <Run Text="{Binding name}" />
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox
+                                        Grid.Column="1"
+                                        Margin="10"
+                                        materialDesign:HintAssist.Hint="Số tiết dạy"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                        Text="{Binding LessonCount, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <WrapPanel Grid.Row="1">
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#4cc459"
+                                        BorderBrush="#4cc459"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding AddLCCommand}"
+                                        Width="100"
+                                        ToolTip="Thêm bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Thêm"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#ff9800"
+                                        BorderBrush="#ff9800"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding EditLCCommand}"
+                                        Width="100"
+                                        ToolTip="Sửa bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Sửa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                            <Separator Grid.Row="2"/>
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox
+                                    Grid.Column="0"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Tháng"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    SelectedValue="{Binding SelectedMonthLC, UpdateSourceTrigger=PropertyChanged}"
+                                    ItemsSource="{Binding ListMonth}"
+                                    DisplayMemberPath="month">
+                                </ComboBox>
+                                <TextBox
+                                    Grid.Column="1"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Năm"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Text="{Binding YearLC, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="10"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                    Command="{Binding FilterLCCommand}"
+                                    Width="auto"
+                                    ToolTip="Lọc">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Filter"/>
+                                        <TextBlock Margin="5 0">Lọc</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="4">
+                                <ListView ItemsSource="{Binding ListLC}" SelectedItem="{Binding SelectedItemLC, Mode=OneWayToSource}" Height="250">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã công" DisplayMemberBinding="{Binding id}"></GridViewColumn>
+                                            <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding teacher.name}"></GridViewColumn>
+                                            <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding teacher.citizenIdentification}"></GridViewColumn>
+                                            <GridViewColumn Header="Ngày tạo" DisplayMemberBinding="{Binding createdAt}"></GridViewColumn>
+                                            <GridViewColumn Header="Số tiết" DisplayMemberBinding="{Binding lessonsCount}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </ScrollViewer>
+                        </Grid>
+                    </materialDesign:Card>
+                    <!--Bonus-->
+                    <materialDesign:Card 
+                        Grid.Row="3"
+                        Margin="10"
+                        Visibility="{Binding IsBonus}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="10"
+                                FontSize="25"
+                                Text="Thưởng"/>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox 
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        materialDesign:HintAssist.Hint="Chọn giáo viên"
+                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                        SelectedValue="{Binding SelectedTeacherBonus, UpdateSourceTrigger=PropertyChanged}"
+                                        ItemsSource="{Binding TeacherSearchResult}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <Run Text="{Binding id}" FontWeight="Bold" />
+                                                    <Run Text=" - " />
+                                                    <Run Text="{Binding name}" />
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox
+                                        Grid.Column="1"
+                                        Margin="10"
+                                        materialDesign:HintAssist.Hint="Số tiền thưởng"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                        Text="{Binding Bonus, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <TextBox
+                                    Grid.Row="1"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Lý do"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Stretch"
+                                    AcceptsReturn="True"
+                                    MinWidth="280"
+                                    VerticalScrollBarVisibility="Auto"
+                                    Height="80"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Text="{Binding ReasonBonus, UpdateSourceTrigger=PropertyChanged}"/>
+                                <WrapPanel Grid.Row="2">
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#4cc459"
+                                        BorderBrush="#4cc459"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding AddBonusCommand}"
+                                        Width="100"
+                                        ToolTip="Thêm bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Thêm"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#ff9800"
+                                        BorderBrush="#ff9800"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding EditBonusCommand}"
+                                        Width="100"
+                                        ToolTip="Sửa bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Sửa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                            <Separator Grid.Row="2"/>
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox
+                                    Grid.Column="0"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Tháng"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    SelectedValue="{Binding SelectedMonthBonus, UpdateSourceTrigger=PropertyChanged}"
+                                    ItemsSource="{Binding ListMonth}"
+                                    DisplayMemberPath="month">
+                                </ComboBox>
+                                <TextBox
+                                    Grid.Column="1"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Năm"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Text="{Binding YearBonus, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="10"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                    Command="{Binding FilterBonusCommand}"
+                                    Width="auto"
+                                    ToolTip="Lọc">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Filter"/>
+                                        <TextBlock Margin="5 0">Lọc</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="4">
+                                <ListView ItemsSource="{Binding ListBonus}" SelectedItem="{Binding SelectedItemBonus, Mode=OneWayToSource}" Height="250">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã thưởng" DisplayMemberBinding="{Binding id}"></GridViewColumn>
+                                            <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding teacher.name}"></GridViewColumn>
+                                            <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding teacher.citizenIdentification}"></GridViewColumn>
+                                            <GridViewColumn Header="Lý do thưởng" DisplayMemberBinding="{Binding reason}"></GridViewColumn>
+                                            <GridViewColumn Header="Ngày tạo" DisplayMemberBinding="{Binding createdAt}"></GridViewColumn>
+                                            <GridViewColumn Header="Thưởng" DisplayMemberBinding="{Binding bonus}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </ScrollViewer>
+                        </Grid>
+                    </materialDesign:Card>
+                    <!--Discipline-->
+                    <materialDesign:Card 
+                        Grid.Row="4"
+                        Margin="10"
+                        Visibility="{Binding IsDiscipline}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="10"
+                                FontSize="25"
+                                Text="Kỷ luật"/>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox 
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        materialDesign:HintAssist.Hint="Chọn giáo viên"
+                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                        SelectedValue="{Binding SelectedTeacherDiscipline, UpdateSourceTrigger=PropertyChanged}"
+                                        ItemsSource="{Binding TeacherSearchResult}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <Run Text="{Binding id}" FontWeight="Bold" />
+                                                    <Run Text=" - " />
+                                                    <Run Text="{Binding name}" />
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox
+                                        Grid.Column="1"
+                                        Margin="10"
+                                        materialDesign:HintAssist.Hint="Số tiền phạt"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                        Text="{Binding Discipline, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <TextBox
+                                    Grid.Row="1"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Lý do"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Stretch"
+                                    AcceptsReturn="True"
+                                    MinWidth="280"
+                                    VerticalScrollBarVisibility="Auto"
+                                    Height="80"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Text="{Binding ReasonDiscipline, UpdateSourceTrigger=PropertyChanged}"/>
+                                <WrapPanel Grid.Row="2">
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#4cc459"
+                                        BorderBrush="#4cc459"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding AddDisciplineCommand}"
+                                        Width="100"
+                                        ToolTip="Thêm bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Add" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Thêm"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#ff9800"
+                                        BorderBrush="#ff9800"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding EditDisciplineCommand}"
+                                        Width="100"
+                                        ToolTip="Sửa bảng lương">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Sửa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                            <Separator Grid.Row="2"/>
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox
+                                    Grid.Column="0"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Tháng"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    SelectedValue="{Binding SelectedMonthDiscipline, UpdateSourceTrigger=PropertyChanged}"
+                                    ItemsSource="{Binding ListMonth}"
+                                    DisplayMemberPath="month">
+                                </ComboBox>
+                                <TextBox
+                                    Grid.Column="1"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Năm"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Text="{Binding YearDiscipline, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="10"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                    Command="{Binding FilterDisciplineCommand}"
+                                    Width="auto"
+                                    ToolTip="Lọc">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Filter"/>
+                                        <TextBlock Margin="5 0">Lọc</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="4">
+                                <ListView ItemsSource="{Binding ListDiscipline}" SelectedItem="{Binding SelectedItemDC, Mode=OneWayToSource}" Height="250">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã kỷ luật" DisplayMemberBinding="{Binding id}"></GridViewColumn>
+                                            <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding teacher.name}"></GridViewColumn>
+                                            <GridViewColumn Header="CCCD" DisplayMemberBinding="{Binding teacher.citizenIdentification}"></GridViewColumn>
+                                            <GridViewColumn Header="Lý do" DisplayMemberBinding="{Binding reason}"></GridViewColumn>
+                                            <GridViewColumn Header="Ngày tạo" DisplayMemberBinding="{Binding createdAt}"></GridViewColumn>
+                                            <GridViewColumn Header="Phạt" DisplayMemberBinding="{Binding fine}"></GridViewColumn>
                                         </GridView>
                                     </ListView.View>
                                 </ListView>

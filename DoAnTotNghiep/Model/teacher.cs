@@ -9,10 +9,11 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class teacher
+    public partial class teacher : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public teacher()
@@ -23,20 +24,29 @@ namespace DoAnTotNghiep.Model
             this.salaries = new HashSet<salary>();
             this.teacher_class = new HashSet<teacher_class>();
         }
-    
         public int id { get; set; }
+        private Nullable<System.DateTime> _updatedAt;
+        private Nullable<int> _updatedBy;
+        private string _name;
+        private string _citizenIdentification;
+        private System.DateTime _dateOfBirth;
+        private string _nation;
+        private byte _sex;
+        private string _phone;
+        private string _avatar;
+        private byte _status;
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get; set; }
-        public string name { get; set; }
-        public string citizenIdentification { get; set; }
-        public System.DateTime dateOfBirth { get; set; }
-        public string nation { get; set; }
-        public byte sex { get; set; }
-        public string phone { get; set; }
-        public string avatar { get; set; }
-        public byte status { get; set; }
+        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
+        public string name { get => _name; set { _name = value; OnPropertyChanged(); } }
+        public string citizenIdentification { get => _citizenIdentification; set { _citizenIdentification = value; OnPropertyChanged(); } }
+        public System.DateTime dateOfBirth { get => _dateOfBirth; set { _dateOfBirth = value; OnPropertyChanged(); } }
+        public string nation { get => _nation; set { _nation = value; OnPropertyChanged(); } }
+        public byte sex { get => _sex; set { _sex = value; OnPropertyChanged(); } }
+        public string phone { get => _phone; set { _phone = value; OnPropertyChanged(); } }
+        public string avatar { get => _avatar; set { _avatar = value; OnPropertyChanged(); } }
+        public byte status { get => _status; set { _status = value; OnPropertyChanged(); } }
         public int userId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

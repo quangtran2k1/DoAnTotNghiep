@@ -8,7 +8,6 @@ namespace DoAnTotNghiep.Model
 {
     public class SalaryDetail
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string CitizenIdentification { get; set; }
         public int BaseSalary { get; set; }

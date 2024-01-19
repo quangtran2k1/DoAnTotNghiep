@@ -53,16 +53,6 @@
                                 <materialDesign:PackIcon Kind="ArrowLeft"></materialDesign:PackIcon>
                             </Button>
                         </Grid>
-                        <Button
-                            Margin="4 10"
-                            HorizontalAlignment="Left"
-                            Command="{Binding TeacherEditWindowCommand}"
-                            Style="{DynamicResource MaterialDesignFlatButton}">
-                            <WrapPanel>
-                                <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
-                                <TextBlock Text="Chỉnh sửa"></TextBlock>
-                            </WrapPanel>
-                        </Button>
                         <Separator/>
                         <Button
                             Margin="4 10"
@@ -193,7 +183,8 @@
                         Background="#af2026"
                         BorderBrush="Transparent"
                         Margin="4"
-                        Command="{Binding LogoutCommand}">
+                        Command="{Binding LogoutCommand}"
+                        CommandParameter="{Binding ElementName=ucSideBar}">
                         <materialDesign:PackIcon
                             Kind="Logout" />
                     </Button>

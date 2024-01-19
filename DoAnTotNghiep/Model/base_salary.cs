@@ -9,10 +9,11 @@
 
 namespace DoAnTotNghiep.Model
 {
+    using DoAnTotNghiep.ViewModel;
     using System;
     using System.Collections.Generic;
     
-    public partial class base_salary
+    public partial class base_salary : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public base_salary()
@@ -22,11 +23,14 @@ namespace DoAnTotNghiep.Model
     
         public int id { get; set; }
         public System.DateTime createdAt { get; set; }
-        public Nullable<System.DateTime> updatedAt { get; set; }
+        private Nullable<System.DateTime> _updatedAt;
+        public Nullable<System.DateTime> updatedAt { get => _updatedAt; set { _updatedAt = value; OnPropertyChanged(); } }
         public int createdBy { get; set; }
-        public Nullable<int> updatedBy { get; set; }
-        public int currentSalary { get; set; }
-    
+        private Nullable<int> _updatedBy;
+        public Nullable<int> updatedBy { get => _updatedBy; set { _updatedBy = value; OnPropertyChanged(); } }
+        private int _currentSalary;
+        public int currentSalary { get => _currentSalary; set { _currentSalary = value; OnPropertyChanged(); } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<salary> salaries { get; set; }
     }

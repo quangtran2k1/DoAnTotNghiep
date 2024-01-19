@@ -8,7 +8,7 @@ namespace DoAnTotNghiep.Model
 {
     public class Month
     {
-        int id { get; set; }
-        string month { get; set; }
+        public int id { get; set; }
+        public string month { get; set; }
     }
 }
