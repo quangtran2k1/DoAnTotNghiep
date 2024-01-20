@@ -11,4 +11,5 @@
     <viewmodel:TeacherViewModel x:Key="TeacherVM"></viewmodel:TeacherViewModel>
     <viewmodel:MainUserViewModel x:Key="MainUserVM"></viewmodel:MainUserViewModel>
     <viewmodel:SalaryViewModel x:Key="SalaryVM"></viewmodel:SalaryViewModel>
+    <viewmodel:SalaryUserViewModel x:Key="SalaryUserVM"></viewmodel:SalaryUserViewModel>
 </ResourceDictionary>

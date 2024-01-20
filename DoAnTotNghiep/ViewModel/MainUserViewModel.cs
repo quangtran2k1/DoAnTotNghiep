@@ -147,6 +147,30 @@ namespace DoAnTotNghiep.ViewModel
         //Sex
 
 
+        //Dad
+        private string _DadName;
+        public string DadName { get => _DadName; set { _DadName = value; OnPropertyChanged(); } }
+        private string _DadNameEdit;
+        public string DadNameEdit { get => _DadNameEdit; set { _DadNameEdit = value; OnPropertyChanged(); } }
+        private string _DadPhone;
+        public string DadPhone { get => _DadPhone; set { _DadPhone = value; OnPropertyChanged(); } }
+        private string _DadPhoneEdit;
+        public string DadPhoneEdit { get => _DadPhoneEdit; set { _DadPhoneEdit = value; OnPropertyChanged(); } }
+        //Dad
+
+
+        //Mom
+        private string _MomName;
+        public string MomName { get => _MomName; set { _MomName = value; OnPropertyChanged(); } }
+        private string _MomNameEdit;
+        public string MomNameEdit { get => _MomNameEdit; set { _MomNameEdit = value; OnPropertyChanged(); } }
+        private string _MomPhone;
+        public string MomPhone { get => _MomPhone; set { _MomPhone = value; OnPropertyChanged(); } }
+        private string _MomPhoneEdit;
+        public string MomPhoneEdit { get => _MomPhoneEdit; set { _MomPhoneEdit = value; OnPropertyChanged(); } }
+        //Mom
+
+
         //Password
         private string _OldPassword;
         public string OldPassword { get => _OldPassword; set { _OldPassword = value; OnPropertyChanged(); } }
@@ -190,6 +214,7 @@ namespace DoAnTotNghiep.ViewModel
 
             var studentProp = DataProvider.Ins.DB.students.Where(x => x.userId == CurrentUser.UserID).SingleOrDefault();
             var teacherProp = DataProvider.Ins.DB.teachers.Where(x => x.userId == CurrentUser.UserID).SingleOrDefault();
+            var parentProp = DataProvider.Ins.DB.parents.Where(x => x.usersId == CurrentUser.UserID).SingleOrDefault();
 
             if (CurrentUser.UserRole == 2)
             {
@@ -214,12 +239,16 @@ namespace DoAnTotNghiep.ViewModel
             }
             else if (CurrentUser.UserRole == 3)
             {
-                var parentInfo = DataProvider.Ins.DB.parents.Where(x => x.usersId == CurrentUser.UserID).FirstOrDefault();
-                if (parentInfo != null)
+                if (parentProp != null)
                 {
-                    ListStudent = new ObservableCollection<student>(DataProvider.Ins.DB.students.Where(x => x.parents.FirstOrDefault().id == parentInfo.id));
+                    ListStudent = new ObservableCollection<student>(DataProvider.Ins.DB.students.Where(x => x.parents.FirstOrDefault().id == parentProp.id));
                 }
                 LoadAvatar(defaultPath);
+                DadName = parentProp.dadName;
+                DadPhone = parentProp.dadPhone;
+                MomName = parentProp.momName;
+                MomPhone = parentProp.momPhone;
+                LoadData();
             }
             else
             {
@@ -248,10 +277,14 @@ namespace DoAnTotNghiep.ViewModel
 
 
             EditInfo = new RelayCommand<object>((p) => { return true; }, (p) => {
-                if(CurrentUser.UserRole == 2)
+                if (CurrentUser.UserRole == 2)
                 {
                     StudentEditWindow studentEditWindow = new StudentEditWindow();
                     studentEditWindow.Show();
+                }else if (CurrentUser.UserRole == 3)
+                {
+                    ParentEditWindow parentEditWindow = new ParentEditWindow();
+                    parentEditWindow.Show();
                 }else if(CurrentUser.UserRole == 4)
                 {
                     TeacherEditWindow teacherEditWindow = new TeacherEditWindow();
@@ -266,7 +299,8 @@ namespace DoAnTotNghiep.ViewModel
 
             Salary = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
-
+                SalaryDetailWindow salaryDetailWindow = new SalaryDetailWindow();
+                salaryDetailWindow.Show();
             });
 
             SavePassCommand = new RelayCommand<object>((p) => { return true; },
@@ -300,12 +334,40 @@ namespace DoAnTotNghiep.ViewModel
 
                         MessageBox.Show("Lưu thành công!");
 
-                        LoadAvatar(appDirectory +  studentProp.avatar);
+                        LoadAvatar(appDirectory + studentProp.avatar);
                         AddressEdit = "";
                         DateOfBirthEdit = DateTime.Now;
                         SelectedSex = null;
                         UserAvatarEdit = "";
-                    }else if (CurrentUser.UserRole == 4)
+                        Name = studentProp.name;
+                        Address = studentProp.address;
+                        DateOfBirth = studentProp.dateOfBirth;
+                        Sex = SexList.Where(x => x.sexID == studentProp.sex).FirstOrDefault().sexName;
+                    }
+                    else if (CurrentUser.UserRole == 3) 
+                    {
+                        if (DadPhoneEdit == null) DadPhoneEdit = "<Trống>";
+                        if (DadNameEdit == null) DadNameEdit = "<Trống>";
+                        if (MomPhoneEdit == null) MomPhoneEdit = "<Trống>";
+                        if (MomNameEdit == null) MomNameEdit = "<Trống>";
+                        parentProp.dadName = DadNameEdit;
+                        parentProp.dadPhone = DadPhoneEdit;
+                        parentProp.momName = MomNameEdit;
+                        parentProp.momPhone = MomPhoneEdit;
+                        DataProvider.Ins.DB.SaveChanges();
+
+                        MessageBox.Show("Lưu thành công!");
+
+                        DadNameEdit = "";
+                        DadPhoneEdit = "";
+                        MomNameEdit = "";
+                        MomPhoneEdit = "";
+                        DadName = parentProp.dadName;
+                        DadPhone = parentProp.dadPhone;
+                        MomName = parentProp.momName;
+                        MomPhone = parentProp.momPhone;
+                    }
+                    else if (CurrentUser.UserRole == 4)
                     {
                         if (SelectedSex == null) SelectedSex = SexList.FirstOrDefault(s => s.sexID == teacherProp.sex);
                         if (string.IsNullOrEmpty(CitizenIdentificationEdit)) CitizenIdentificationEdit = teacherProp.citizenIdentification;
@@ -331,6 +393,12 @@ namespace DoAnTotNghiep.ViewModel
                         DateOfBirthEdit = DateTime.Now;
                         SelectedSex = null;
                         UserAvatarEdit = "";
+                        Name = teacherProp.name;
+                        DateOfBirth = teacherProp.dateOfBirth;
+                        Sex = SexList.Where(x => x.sexID == teacherProp.sex).FirstOrDefault().sexName;
+                        CitizenIdentification = teacherProp.citizenIdentification;
+                        Phone = teacherProp.phone;
+                        Nation = teacherProp.name;
                     }
             });
 

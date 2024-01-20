@@ -1,4 +1,4 @@
-﻿<Window x:Class="DoAnTotNghiep.StudentEditWindow"
+﻿<Window x:Class="DoAnTotNghiep.ParentEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -55,23 +55,18 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <DatePicker
+                            <TextBox
                                 Grid.Column="0"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Ngày sinh"
-                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                                SelectedDate="{Binding DateOfBirthEdit}"/>
-                            <ComboBox 
+                                materialDesign:HintAssist.Hint="Họ tên bố"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                Text="{Binding DadNameEdit, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox
                                 Grid.Column="1"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Giới tính"
-                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                ItemsSource="{Binding SexList}"
-                                SelectedItem="{Binding SelectedSex, Mode=TwoWay}"
-                                DisplayMemberPath="sexName"
-                                SelectedValuePath="sexID"
-                                SelectedValue="{Binding SelectedSex.sexID, Mode=TwoWay}">
-                            </ComboBox>
+                                materialDesign:HintAssist.Hint="Họ tên mẹ"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                Text="{Binding MomNameEdit, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -81,35 +76,15 @@
                             <TextBox
                                 Grid.Column="0"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Địa chỉ"
+                                materialDesign:HintAssist.Hint="Số điện thoại bố"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                Text="{Binding AddressEdit}"/>
-                            <Border Grid.Column="1" Margin="10" BorderBrush="#878787" BorderThickness="0,0,0,1">
-                                <Grid>
-                                    <DockPanel VerticalAlignment="Center">
-                                        <TextBlock 
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Margin="5 0"
-                                            Text="{Binding UserAvatarEdit}">
-                                        </TextBlock>
-                                        <Button 
-                                            Grid.ZIndex="99"
-                                            DockPanel.Dock="Right"
-                                            HorizontalAlignment="Right"
-                                            BorderBrush="#878787"
-                                            BorderThickness="1"
-                                            Background="White"
-                                            Width="50"
-                                            Command="{Binding UploadAvatarCommand}">
-                                            <materialDesign:PackIcon 
-                                                Foreground="#878787"
-                                                Kind="Paperclip" />
-                                        </Button>
-                                    </DockPanel>
-                                </Grid>
-                            </Border>
-
+                                Text="{Binding DadPhoneEdit, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox
+                                Grid.Column="1"
+                                Margin="10"
+                                materialDesign:HintAssist.Hint="Số điện thoại mẹ"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                Text="{Binding MomPhoneEdit, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Grid>
                 </materialDesign:Card>
@@ -151,17 +126,17 @@
                             <TextBox
                                 Grid.Row="0"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Họ tên"
+                                materialDesign:HintAssist.Hint="Họ tên bố"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                 IsEnabled="False"
-                                Text="{Binding Name}"/>
+                                Text="{Binding DadName}"/>
                             <TextBox
                                 Grid.Row="1"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Ngày sinh"
+                                materialDesign:HintAssist.Hint="Số điện thoại bố"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                 IsEnabled="False"
-                                Text="{Binding DateOfBirth}"/>
+                                Text="{Binding DadPhone}"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
@@ -171,17 +146,17 @@
                             <TextBox
                                 Grid.Row="0"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Địa chỉ"
+                                materialDesign:HintAssist.Hint="Họ tên mẹ"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                 IsEnabled="False"
-                                Text="{Binding Address}"/>
+                                Text="{Binding MomName}"/>
                             <TextBox
                                 Grid.Row="1"
                                 Margin="10"
-                                materialDesign:HintAssist.Hint="Giới tính"
+                                materialDesign:HintAssist.Hint="Số điện thoại mẹ"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                 IsEnabled="False"
-                                Text="{Binding Sex}"/>
+                                Text="{Binding MomPhone}"/>
                         </Grid>
                     </Grid>
                 </materialDesign:Card>
@@ -189,5 +164,3 @@
         </ScrollViewer>
     </Grid>
 </Window>
-
-

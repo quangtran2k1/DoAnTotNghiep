@@ -204,6 +204,19 @@
                                             <TextBlock Text="Sửa"></TextBlock>
                                         </WrapPanel>
                                     </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#c7232b"
+                                        BorderBrush="#c7232b"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding ClearSalaryCommand}"
+                                        Width="100"
+                                        ToolTip="Xóa">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Xóa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
                                 </WrapPanel>
                             </Grid>
                             <Separator Grid.Row="2"/>
@@ -316,6 +329,19 @@
                                             <TextBlock Text="Sửa"></TextBlock>
                                         </WrapPanel>
                                     </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#c7232b"
+                                        BorderBrush="#c7232b"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding ClearBSCommand}"
+                                        Width="100"
+                                        ToolTip="Xóa">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Xóa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
                                 </WrapPanel>
                             </Grid>
                             <Separator Grid.Row="2"/>
@@ -408,6 +434,19 @@
                                         <WrapPanel>
                                             <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
                                             <TextBlock Text="Sửa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#c7232b"
+                                        BorderBrush="#c7232b"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding ClearLCCommand}"
+                                        Width="100"
+                                        ToolTip="Xóa">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Xóa"></TextBlock>
                                         </WrapPanel>
                                     </Button>
                                 </WrapPanel>
@@ -555,6 +594,19 @@
                                             <TextBlock Text="Sửa"></TextBlock>
                                         </WrapPanel>
                                     </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#c7232b"
+                                        BorderBrush="#c7232b"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding ClearBonusCommand}"
+                                        Width="100"
+                                        ToolTip="Xóa">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Xóa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
                                 </WrapPanel>
                             </Grid>
                             <Separator Grid.Row="2"/>
@@ -699,6 +751,19 @@
                                         <WrapPanel>
                                             <materialDesign:PackIcon Kind="Pencil" Margin="0 0 2 0"></materialDesign:PackIcon>
                                             <TextBlock Text="Sửa"></TextBlock>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button
+                                        Margin="10 10 10 10"
+                                        Background="#c7232b"
+                                        BorderBrush="#c7232b"
+                                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Command="{Binding ClearDisciplineCommand}"
+                                        Width="100"
+                                        ToolTip="Xóa">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="Trash" Margin="0 0 2 0"></materialDesign:PackIcon>
+                                            <TextBlock Text="Xóa"></TextBlock>
                                         </WrapPanel>
                                     </Button>
                                 </WrapPanel>

@@ -708,6 +708,43 @@ namespace DoAnTotNghiep.ViewModel
             //Edit Command
 
 
+            //Clear Command
+            ClearSalaryCommand = new RelayCommand<object>( (p) => { return true; },
+               (p) =>
+               {
+                    SelectedMonthAdd = ListMonth.Where(x => x.id == DateTime.Now.Month).FirstOrDefault();
+                    SelectedTeacher = null;
+                    SelectedBaseSalary = null;
+                    YearAdd = DateTime.Now.Year;
+               });
+            ClearBSCommand = new RelayCommand<object>( (p) => { return true; },
+               (p) =>
+               {
+                   CurrentSalary = 0;
+               });
+            ClearLCCommand = new RelayCommand<object>( (p) => { return true; },
+               (p) =>
+               {
+                   SelectedTeacherLC = null;
+                   LessonCount = 0;
+               });
+            ClearBonusCommand = new RelayCommand<object>( (p) => { return true; },
+               (p) =>
+               {
+                   SelectedTeacherBonus = null;
+                   ReasonBonus = "";
+                   Bonus = 0;
+               });
+            ClearDisciplineCommand = new RelayCommand<object>( (p) => { return true; },
+               (p) =>
+               {
+                   SelectedTeacherDiscipline = null;
+                   ReasonDiscipline = "";
+                   Discipline = 0;
+               });
+            //Clear Command
+
+
             //Filter Command
             FilterSalaryCommand = new RelayCommand<object>( (p) => { return true; }, (p) => { LoadData(); });
             FilterLCCommand = new RelayCommand<object>((p) => { return true; }, (p) => { LoadDataLC(); });
